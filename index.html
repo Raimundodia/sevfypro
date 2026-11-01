@@ -176,9 +176,6 @@
                 <button onclick="switchTab('checklist')" id="sideBtnChecklist" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">
                     <i class="fa-solid fa-check-double text-emerald-400 text-sm"></i> Checklist de Campo
                 </button>
-                <button onclick="switchTab('webhooks')" id="sideBtnWebhooks" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition hidden">
-                    <i class="fa-solid fa-bolt text-amber-400 text-sm"></i> Painel Dev / Webhooks
-                </button>
             </div>
 
             <!-- METRIC CARDS SIDEBAR -->
@@ -372,94 +369,6 @@
                 </div>
             </section>
 
-            <!-- VIEW 4: WEBHOOKS & INTEGRAÇÕES -->
-            <section id="viewWebhooks" class="space-y-4 hidden">
-                <div class="bg-basecard border border-baseborder rounded-2xl p-4 sm:p-5 shadow-xl space-y-5">
-                    <div class="flex items-center justify-between pb-3 border-b border-baseborder">
-                        <div class="flex items-center gap-2.5">
-                            <div class="w-8 h-8 rounded-lg bg-amber-600/20 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                                <i class="fa-solid fa-bolt text-sm"></i>
-                            </div>
-                            <div>
-                                <h2 class="font-extrabold text-white text-sm sm:text-base">Webhooks & Integrador Kiwify / Gateways</h2>
-                                <p class="text-[11px] text-slate-400">Conexão Pronta para Automação de Cobranças e Assinaturas</p>
-                            </div>
-                        </div>
-                        <span class="text-xs font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/40 px-3 py-1 rounded-full flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            API Ready
-                        </span>
-                    </div>
-
-                    <!-- INSTRUÇÕES RÁPIDAS DE CONFIGURAÇÃO -->
-                    <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 space-y-2 text-xs">
-                        <span class="font-bold text-amber-400 uppercase tracking-wider text-[10px] block">Como Conectar na Kiwify / Hotmart:</span>
-                        <ol class="list-decimal list-inside text-slate-300 space-y-1 text-[11px]">
-                            <li>Acesse seu painel na <strong>Kiwify</strong> &gt; <i>Configurações do Produto</i> &gt; <i>Webhooks</i>.</li>
-                            <li>No campo <strong>URL da Página de Obrigado (Redirect)</strong>, cole: <code class="text-emerald-300 font-mono">https://sevfypro.vercel.app/?kiwify_status=approved&email={email}</code></li>
-                            <li>No campo <strong>URL do Webhook (POST)</strong>, cole o endereço do endpoint abaixo.</li>
-                        </ol>
-                    </div>
-
-                    <!-- WEBHOOK URL CONFIG -->
-                    <div class="space-y-3 bg-[#0a0e17] p-4 rounded-xl border border-baseborder">
-                        <h3 class="text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-link text-indigo-400"></i> Endpoint de Produção (URL Webhook)
-                        </h3>
-                        <p class="text-[11px] text-slate-400">URL ativa pronta para receber os pings POST da sua plataforma de vendas:</p>
-                        
-                        <div class="flex gap-2">
-                            <input type="text" readonly id="webhookEndpointUrl" value="https://vbzjsnankzmebwhnlbll.supabase.co/rest/v1/profiles"
-                                class="flex-1 px-3.5 py-2 text-xs bg-slate-900 border border-baseborder rounded-xl text-indigo-300 font-mono select-all">
-                            <button onclick="copyWebhookUrl()" class="px-3.5 py-2 bg-brand-600 hover:bg-brand-500 text-white rounded-xl text-xs font-bold active:scale-95 transition">
-                                Copiar URL
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- SIMULATE & TEST KIWIFY WEBHOOK -->
-                    <div class="space-y-3">
-                        <h3 class="text-xs font-extrabold text-slate-200 uppercase tracking-wider flex items-center gap-2">
-                            <i class="fa-solid fa-vial text-emerald-400"></i> Testar Conexão em Tempo Real
-                        </h3>
-
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-300 mb-1">Evento Simulado</label>
-                                <select id="whSimEvent" class="w-full px-3 py-2 text-xs bg-[#0a0e17] border border-baseborder rounded-xl text-white outline-none">
-                                    <option value="order_approved">order_approved (Libera Acesso Pro)</option>
-                                    <option value="subscription_canceled">subscription_canceled (Bloqueia Acesso)</option>
-                                    <option value="order_refunded">order_refunded (Revoga Acesso)</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-[11px] font-bold text-slate-300 mb-1">E-mail do Assinante</label>
-                                <input type="email" id="whSimEmail" value="cliente.teste@servify.com"
-                                    class="w-full px-3 py-2 text-xs bg-[#0a0e17] border border-baseborder rounded-xl text-white outline-none">
-                            </div>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <button onclick="simulateWebhookExecution()" class="flex-1 py-3 bg-amber-600 hover:bg-amber-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-md active:scale-95 transition">
-                                <i class="fa-solid fa-paper-plane"></i> Processar Webhook e Atualizar Usuário
-                            </button>
-                            <button onclick="copySampleJSONPayload()" class="px-3.5 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs font-bold transition" title="Copiar Payload JSON">
-                                <i class="fa-solid fa-code"></i> Payload JSON
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- WEBHOOK EVENT LOGS -->
-                    <div class="space-y-2 pt-2">
-                        <div class="flex justify-between items-center">
-                            <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Monitor em Tempo Real (Audit Log)</span>
-                            <button onclick="clearWebhookLogs()" class="text-[10px] font-bold text-slate-500 hover:text-slate-300">Limpar Histórico</button>
-                        </div>
-                        <div id="webhookLogsContainer" class="space-y-2 font-mono text-[11px]"></div>
-                    </div>
-                </div>
-            </section>
-
         </main>
     </div>
 
@@ -482,12 +391,6 @@
                 class="nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-slate-400 hover:text-slate-200">
                 <i class="fa-solid fa-check-double text-sm"></i>
                 <span class="text-[9px] font-extrabold">Checklist</span>
-            </button>
-
-            <button id="navBtnWebhooks" onclick="switchTab('webhooks')"
-                class="nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-slate-400 hover:text-slate-200 hidden">
-                <i class="fa-solid fa-bolt text-sm"></i>
-                <span class="text-[9px] font-extrabold">Webhooks</span>
             </button>
         </div>
     </nav>
@@ -611,29 +514,26 @@
             const vNovo = document.getElementById('viewNovoOrcamento');
             const vLista = document.getElementById('viewListaOrcamentos');
             const vCheck = document.getElementById('viewChecklist');
-            const vWh = document.getElementById('viewWebhooks');
 
             const btnNovo = document.getElementById('navBtnNovo');
             const btnLista = document.getElementById('navBtnLista');
             const btnCheck = document.getElementById('navBtnChecklist');
-            const btnWh = document.getElementById('navBtnWebhooks');
 
             const sideBtnNovo = document.getElementById('sideBtnNovo');
             const sideBtnLista = document.getElementById('sideBtnLista');
             const sideBtnCheck = document.getElementById('sideBtnChecklist');
-            const sideBtnWh = document.getElementById('sideBtnWebhooks');
 
             // Hide all views
-            [vNovo, vLista, vCheck, vWh].forEach(v => {
+            [vNovo, vLista, vCheck].forEach(v => {
                 if (v) v.classList.add('hidden');
             });
 
             // Reset tab styling
-            [btnNovo, btnLista, btnCheck, btnWh].forEach(b => {
+            [btnNovo, btnLista, btnCheck].forEach(b => {
                 if (b) b.className = "nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-slate-400 hover:text-slate-200";
             });
 
-            [sideBtnNovo, sideBtnLista, sideBtnCheck, sideBtnWh].forEach(sb => {
+            [sideBtnNovo, sideBtnLista, sideBtnCheck].forEach(sb => {
                 if (sb && sb !== sideBtnNovo) {
                     sb.className = "w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition";
                 }
@@ -649,10 +549,6 @@
             } else if (tabName === 'checklist') {
                 if (vCheck) vCheck.classList.remove('hidden');
                 if (btnCheck) btnCheck.className = "nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-emerald-400 bg-emerald-950/50 border border-emerald-800/40";
-            } else if (tabName === 'webhooks') {
-                if (vWh) vWh.classList.remove('hidden');
-                if (btnWh) btnWh.className = "nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-amber-400 bg-amber-950/50 border border-amber-800/40";
-                renderWebhookLogs();
             }
         }
 
@@ -1127,39 +1023,10 @@
             showToast('Sessão encerrada com sucesso.', 'info');
         }
 
-        // WEBHOOK SYSTEM & AUTOMATION ENGINE
-        let webhookLogs = JSON.parse(localStorage.getItem('servify_wh_logs_v1') || '[]');
-
-        function copyWebhookUrl() {
-            const input = document.getElementById('webhookEndpointUrl');
-            input.select();
-            input.setSelectionRange(0, 99999);
-            document.execCommand('copy');
-            showToast('URL do Webhook copiada com sucesso!', 'success');
-        }
-
-        function copySampleJSONPayload() {
-            const samplePayload = {
-                "order_id": "kw_" + Date.now(),
-                "order_status": document.getElementById('whSimEvent')?.value || "order_approved",
-                "Product": { "product_id": "prod_servify_hub_pro", "product_name": "ServifyHub Plano Profissional" },
-                "Customer": { "email": document.getElementById('whSimEmail')?.value || "cliente@provedor.com", "full_name": "Cliente Exemplo" },
-                "Subscription": { "status": "active" }
-            };
-            
-            const tempTextArea = document.createElement('textarea');
-            tempTextArea.value = JSON.stringify(samplePayload, null, 2);
-            document.body.appendChild(tempTextArea);
-            tempTextArea.select();
-            document.execCommand('copy');
-            document.body.removeChild(tempTextArea);
-            showToast('Payload JSON de exemplo copiado!', 'info');
-        }
-
+        // AUTOMATION HANDLER (RETORNO DE COMPRA DA KIWIFY NA URL)
         async function processWebhookPayload(payload) {
-            // Suporte universal a múltiplos formatos de webhook (Kiwify, Hotmart, Mercado Pago, Monetizze)
             const eventType = payload.order_status || payload.event || payload.status || 'order_approved';
-            const email = (payload.Customer && payload.Customer.email) || payload.email || (payload.customer && payload.customer.email) || 'usuario@provedor.com';
+            const email = (payload.Customer && payload.Customer.email) || payload.email || 'usuario@provedor.com';
 
             let accessGranted = false;
             let statusText = 'Pendente';
@@ -1167,108 +1034,28 @@
             if (['order_approved', 'approved', 'paid', 'completed', 'active'].includes(eventType.toLowerCase())) {
                 accessGranted = true;
                 statusText = 'Ativo (Pro)';
-            } else if (['subscription_canceled', 'order_refunded', 'canceled', 'refunded', 'charged_back'].includes(eventType.toLowerCase())) {
-                accessGranted = false;
-                statusText = 'Bloqueado';
             }
 
-            // Grava / atualiza no Supabase garantindo que não quebre caso a tabela tenha políticas RLS
             if (supabaseClient) {
                 try {
-                    const { error } = await supabaseClient
+                    await supabaseClient
                         .from('profiles')
                         .upsert([{ email: email, status_assinatura: statusText }], { onConflict: 'email' });
-                    
-                    if (error) {
-                        console.warn('Alerta Supabase RLS ao atualizar perfil:', error.message);
-                    }
                 } catch(err) {
-                    console.warn('Atualização remota de profile em fallback local:', err);
+                    console.warn('Sincronização remota:', err);
                 }
             }
 
-            // Atualiza sessão em tempo real se o e-mail for o do usuário conectado
-            if (currentUser && (currentUser.email === email || currentUser.email === 'cliente.teste@servify.com')) {
+            if (currentUser && currentUser.email === email) {
                 currentUser.status_assinatura = statusText;
                 localStorage.setItem('servify_session', JSON.stringify(currentUser));
                 const badge = document.getElementById('userSessionLabel');
                 if (badge) badge.innerText = `${currentUser.email} [${statusText}]`;
             }
 
-            const logEntry = {
-                id: 'wh-' + Date.now(),
-                event: eventType,
-                email: email,
-                timestamp: new Date().toLocaleTimeString('pt-BR'),
-                status: '200 OK (Processado com Sucesso)',
-                access_status: statusText,
-                payload: payload
-            };
-
-            webhookLogs.unshift(logEntry);
-            localStorage.setItem('servify_wh_logs_v1', JSON.stringify(webhookLogs));
-            renderWebhookLogs();
-
             if (accessGranted) {
-                showToast(`Status do Webhook: APROVADO para ${email}! Acesso liberado.`, 'success');
-            } else {
-                showToast(`Status do Webhook: CANCELADO/REEMBOLSADO para ${email}. Status: ${statusText}`, 'error');
+                showToast(`🎉 Assinatura APROVADA para ${email}! Acesso Pro liberado.`, 'success');
             }
-        }
-
-        function simulateWebhookExecution() {
-            const eventType = document.getElementById('whSimEvent').value;
-            const email = document.getElementById('whSimEmail').value.trim();
-
-            if (!email) {
-                showToast('Informe o e-mail do assinante!', 'error');
-                return;
-            }
-
-            const payload = {
-                order_id: 'kw_test_' + Date.now(),
-                order_status: eventType,
-                Customer: { email: email },
-                signature: 'kiwify_secret_hash_verified'
-            };
-
-            processWebhookPayload(payload);
-        }
-
-        function renderWebhookLogs() {
-            const container = document.getElementById('webhookLogsContainer');
-            if (!container) return;
-
-            if (webhookLogs.length === 0) {
-                container.innerHTML = `
-                    <div class="text-center py-6 bg-[#0a0e17] rounded-xl border border-baseborder text-slate-500 text-xs">
-                        Nenhum evento registrado ainda. Execute um teste de envio acima.
-                    </div>
-                `;
-                return;
-            }
-
-            container.innerHTML = webhookLogs.map(log => `
-                <div class="p-3 bg-[#0a0e17] border border-baseborder rounded-xl space-y-1">
-                    <div class="flex justify-between items-center">
-                        <span class="text-amber-400 font-bold">${log.event}</span>
-                        <span class="text-slate-500 text-[10px]">${log.timestamp}</span>
-                    </div>
-                    <div class="flex justify-between items-center text-[10px]">
-                        <span class="text-slate-300">Cliente: <strong class="text-white">${log.email}</strong></span>
-                        <span class="px-2 py-0.5 rounded ${log.access_status.includes('Ativo') ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'} font-bold">
-                            ${log.access_status}
-                        </span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function clearWebhookLogs() {
-            webhookLogs = [];
-            localStorage.removeItem('servify_wh_logs_v1');
-            renderWebhookLogs();
-            showToast('Histórico de Webhooks limpo.', 'info');
         }
 
         // CHECKLIST DE CAMPO LOGIC
@@ -1330,14 +1117,7 @@
 
         // INITIALIZATION
         window.onload = function() {
-            // Check URL query string to show Dev Webhooks tab if needed (e.g. ?admin=true)
             const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('admin') === 'true' || window.location.hostname === 'localhost') {
-                document.getElementById('sideBtnWebhooks')?.classList.remove('hidden');
-                document.getElementById('navBtnWebhooks')?.classList.remove('hidden');
-                const grid = document.getElementById('mobileNavGrid');
-                if (grid) grid.className = "max-w-md mx-auto grid grid-cols-4 gap-1";
-            }
 
             // Captura ativação automática via parâmetros Kiwify na URL (Redirecionamento pós-compra)
             if (urlParams.get('kiwify_status') === 'approved' || urlParams.get('order_status') === 'paid') {
@@ -1346,7 +1126,6 @@
                     order_status: 'order_approved',
                     Customer: { email: emailPurchased }
                 });
-                showToast(`🎉 Parabéns! Assinatura Kiwify APROVADA para ${emailPurchased}. Acesso Pro ativado!`, 'success');
             }
 
             // Setup calculation triggers
