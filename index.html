@@ -176,6 +176,9 @@
                 <button onclick="switchTab('checklist')" id="sideBtnChecklist" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">
                     <i class="fa-solid fa-check-double text-emerald-400 text-sm"></i> Checklist de Campo
                 </button>
+                <button onclick="switchTab('config')" id="sideBtnConfig" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">
+                    <i class="fa-solid fa-sliders text-indigo-400 text-sm"></i> Minha Empresa / Marca
+                </button>
             </div>
 
             <!-- METRIC CARDS SIDEBAR -->
@@ -266,12 +269,12 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                             <div>
                                 <label class="block text-xs font-bold text-slate-300 mb-1">Mão de Obra (R$)</label>
-                                <input type="number" id="costLabor" inputmode="decimal" min="0" step="0.01" placeholder="0,00" value="180"
+                                <input type="number" id="costLabor" inputmode="decimal" min="0" step="0.01" placeholder="0,00"
                                     class="calc-trigger w-full px-3.5 py-2.5 text-sm bg-[#0a0e17] border border-baseborder rounded-xl focus:ring-2 focus:ring-brand-500 outline-none text-white font-mono">
                             </div>
                             <div>
                                 <label class="block text-xs font-bold text-slate-300 mb-1">Deslocamento / Visita (R$)</label>
-                                <input type="number" id="costTravel" inputmode="decimal" min="0" step="0.01" placeholder="0,00" value="40"
+                                <input type="number" id="costTravel" inputmode="decimal" min="0" step="0.01" placeholder="0,00"
                                     class="calc-trigger w-full px-3.5 py-2.5 text-sm bg-[#0a0e17] border border-baseborder rounded-xl focus:ring-2 focus:ring-brand-500 outline-none text-white font-mono">
                             </div>
                         </div>
@@ -279,9 +282,9 @@
                         <div>
                             <div class="flex justify-between items-center mb-1">
                                 <label class="text-xs font-bold text-slate-300">Margem Comercial / Adicional (%)</label>
-                                <span id="marginValDisplay" class="text-xs font-bold text-indigo-400 font-mono">20%</span>
+                                <span id="marginValDisplay" class="text-xs font-bold text-indigo-400 font-mono">0%</span>
                             </div>
-                            <input type="range" id="profitMargin" min="0" max="100" value="20" step="5"
+                            <input type="range" id="profitMargin" min="0" max="100" value="0" step="5"
                                 class="calc-trigger w-full accent-indigo-500 h-2 bg-[#0a0e17] rounded-lg appearance-none cursor-pointer border border-baseborder">
                         </div>
 
@@ -300,8 +303,8 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
                             <button type="button" onclick="salvarNoSupabase()"
                                 class="w-full min-h-[48px] px-4 py-3 bg-brand-600 hover:bg-brand-500 active:scale-98 transition text-white font-bold rounded-xl text-xs shadow-glow-indigo flex items-center justify-center gap-2">
-                                <i class="fa-solid fa-cloud-arrow-up text-sm"></i>
-                                <span>Salvar no Supabase</span>
+                                <i class="fa-solid fa-floppy-disk text-sm"></i>
+                                <span>Salvar</span>
                             </button>
 
                             <button type="button" onclick="enviarWhatsAppDireto()"
@@ -348,24 +351,95 @@
                             </div>
                             <div>
                                 <h2 class="font-extrabold text-white text-sm sm:text-base">Checklist de Execução em Campo</h2>
-                                <p class="text-[11px] text-slate-400">Padronize seus atendimentos e vistorias técnicas</p>
+                                <p class="text-[11px] text-slate-400">Padronize seus atendimentos e crie suas próprias verificações</p>
                             </div>
                         </div>
-                        <button onclick="resetChecklist()" class="text-xs text-slate-400 hover:text-white bg-[#0a0e17] px-3 py-1.5 rounded-xl border border-baseborder transition">
-                            <i class="fa-solid fa-rotate-right mr-1"></i> Reiniciar
+                        <div class="flex items-center gap-2">
+                            <button onclick="resetChecklist()" class="text-xs text-slate-400 hover:text-white bg-[#0a0e17] px-3 py-1.5 rounded-xl border border-baseborder transition">
+                                <i class="fa-solid fa-rotate-right mr-1"></i> Reiniciar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- NOVO ITEM DE CHECKLIST (DINÂMICO) -->
+                    <div class="flex gap-2">
+                        <input type="text" id="newChecklistItemInput" placeholder="Digite uma nova etapa/item de vistoria..."
+                            class="flex-1 px-3.5 py-2.5 text-xs bg-[#0a0e17] border border-baseborder rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none text-white placeholder-slate-500"
+                            onkeydown="if(event.key === 'Enter'){ event.preventDefault(); addCustomChecklistItem(); }">
+                        <button type="button" onclick="addCustomChecklistItem()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition active:scale-95 shadow-glow-emerald">
+                            <i class="fa-solid fa-plus"></i> Adicionar
                         </button>
                     </div>
 
-                    <div class="space-y-3" id="checklistItemsContainer">
+                    <div class="space-y-2" id="checklistItemsContainer">
                         <!-- Checklist items populated via JS -->
                     </div>
 
                     <div class="pt-2 border-t border-baseborder flex justify-between items-center">
-                        <span class="text-xs text-slate-400 font-medium" id="checklistProgressText">Progresso: 0 de 5 concluídos</span>
+                        <span class="text-xs text-slate-400 font-medium" id="checklistProgressText">Progresso: 0 de 0 concluídos</span>
                         <button onclick="compartilharChecklistWhatsApp()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center gap-2 transition active:scale-95 shadow-glow-emerald">
                             <i class="fa-brands fa-whatsapp text-sm"></i> Enviar Relatório Técnico
                         </button>
                     </div>
+                </div>
+            </section>
+
+            <!-- VIEW 4: CONFIGURAÇÕES DA EMPRESA / MARCA DO CLIENTE -->
+            <section id="viewConfigEmpresa" class="space-y-4 hidden">
+                <div class="bg-basecard border border-baseborder rounded-2xl p-4 sm:p-5 shadow-xl space-y-4">
+                    <div class="flex items-center justify-between pb-3 border-b border-baseborder">
+                        <div class="flex items-center gap-2.5">
+                            <div class="w-8 h-8 rounded-lg bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
+                                <i class="fa-solid fa-building text-sm"></i>
+                            </div>
+                            <div>
+                                <h2 class="font-extrabold text-white text-sm sm:text-base">Personalização da Sua Empresa</h2>
+                                <p class="text-[11px] text-slate-400">Insira seus dados e logo para personalizar a proposta formal</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="formCompanyConfig" onsubmit="salvarConfigEmpresa(event)" class="space-y-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">Nome da Empresa / Razão Social</label>
+                                <input type="text" id="companyName" placeholder="Ex: ClimaTech Soluções Elétricas"
+                                    class="w-full px-3.5 py-3 text-sm bg-[#0a0e17] border border-baseborder rounded-xl focus:ring-2 focus:ring-brand-500 outline-none text-white placeholder-slate-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">CNPJ ou CPF</label>
+                                <input type="text" id="companyDoc" placeholder="Ex: 00.000.000/0001-00"
+                                    class="w-full px-3.5 py-3 text-sm bg-[#0a0e17] border border-baseborder rounded-xl focus:ring-2 focus:ring-brand-500 outline-none text-white placeholder-slate-500">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">Telefone / WhatsApp de Contato</label>
+                                <input type="text" id="companyPhone" placeholder="Ex: (11) 99999-8888"
+                                    class="w-full px-3.5 py-3 text-sm bg-[#0a0e17] border border-baseborder rounded-xl focus:ring-2 focus:ring-brand-500 outline-none text-white placeholder-slate-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-bold text-slate-300 mb-1">Logomarca (Enviar Imagem)</label>
+                                <div class="flex items-center gap-2">
+                                    <input type="file" id="companyLogoInput" accept="image/*" onchange="handleLogoUpload(event)"
+                                        class="w-full px-3.5 py-2 text-xs bg-[#0a0e17] border border-baseborder rounded-xl text-slate-300 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-brand-600 file:text-white hover:file:bg-brand-500 cursor-pointer">
+                                </div>
+                                <div id="logoPreviewContainer" class="mt-2 hidden flex items-center gap-2">
+                                    <img id="logoPreviewImg" src="" class="w-10 h-10 object-contain rounded-lg border border-baseborder bg-slate-900 p-1" alt="Preview Logo">
+                                    <span class="text-[10px] text-emerald-400 font-bold"><i class="fa-solid fa-check"></i> Logo carregada</span>
+                                    <button type="button" onclick="removerLogo()" class="text-[10px] text-rose-400 underline ml-auto">Remover</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="w-full min-h-[46px] px-4 py-3 bg-brand-600 hover:bg-brand-500 transition text-white font-bold rounded-xl text-xs shadow-glow-indigo flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-floppy-disk text-sm"></i>
+                            <span>Salvar Dados da Minha Empresa</span>
+                        </button>
+                    </form>
                 </div>
             </section>
 
@@ -374,7 +448,7 @@
 
     <!-- MOBILE BOTTOM NAVIGATION (BASE44 STYLE) -->
     <nav class="fixed bottom-0 left-0 right-0 z-40 glass-header border-t border-baseborder px-4 py-2 lg:hidden no-print">
-        <div class="max-w-md mx-auto grid grid-cols-3 gap-1" id="mobileNavGrid">
+        <div class="max-w-md mx-auto grid grid-cols-4 gap-1" id="mobileNavGrid">
             <button id="navBtnNovo" onclick="switchTab('novo')"
                 class="nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-indigo-400 bg-indigo-950/50 border border-indigo-800/40">
                 <i class="fa-solid fa-plus-circle text-sm"></i>
@@ -392,6 +466,12 @@
                 <i class="fa-solid fa-check-double text-sm"></i>
                 <span class="text-[9px] font-extrabold">Checklist</span>
             </button>
+
+            <button id="navBtnConfig" onclick="switchTab('config')"
+                class="nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-slate-400 hover:text-slate-200">
+                <i class="fa-solid fa-sliders text-sm"></i>
+                <span class="text-[9px] font-extrabold">Marca</span>
+            </button>
         </div>
     </nav>
 
@@ -403,11 +483,15 @@
             </button>
 
             <div id="pdfContent" class="space-y-5 p-2">
-                <!-- FORMAL HEADER -->
+                <!-- FORMAL HEADER WITH CUSTOM BRAND LOGO -->
                 <div class="flex justify-between items-start border-b pb-4 border-slate-200">
-                    <div>
-                        <h2 class="text-xl font-black text-indigo-600 tracking-tight">ServifyHub</h2>
-                        <p class="text-xs text-slate-500 font-medium">Proposta Comercial de Serviços</p>
+                    <div class="flex items-center gap-3">
+                        <img id="pdfCompanyLogoImg" src="" class="w-12 h-12 object-contain rounded-lg border border-slate-200 hidden" alt="Logo">
+                        <div>
+                            <h2 class="text-xl font-black text-indigo-600 tracking-tight" id="pdfCompanyNameHeader">ServifyHub</h2>
+                            <p class="text-xs text-slate-500 font-medium" id="pdfCompanySubHeader">Proposta Comercial de Serviços</p>
+                            <span class="text-[10px] text-slate-400 block" id="pdfCompanyDocHeader"></span>
+                        </div>
                     </div>
                     <div class="text-right">
                         <span class="text-xs text-slate-400 block font-mono" id="pdfQuoteDate">Data: --/--/----</span>
@@ -514,26 +598,29 @@
             const vNovo = document.getElementById('viewNovoOrcamento');
             const vLista = document.getElementById('viewListaOrcamentos');
             const vCheck = document.getElementById('viewChecklist');
+            const vConfig = document.getElementById('viewConfigEmpresa');
 
             const btnNovo = document.getElementById('navBtnNovo');
             const btnLista = document.getElementById('navBtnLista');
             const btnCheck = document.getElementById('navBtnChecklist');
+            const btnConfig = document.getElementById('navBtnConfig');
 
             const sideBtnNovo = document.getElementById('sideBtnNovo');
             const sideBtnLista = document.getElementById('sideBtnLista');
             const sideBtnCheck = document.getElementById('sideBtnChecklist');
+            const sideBtnConfig = document.getElementById('sideBtnConfig');
 
             // Hide all views
-            [vNovo, vLista, vCheck].forEach(v => {
+            [vNovo, vLista, vCheck, vConfig].forEach(v => {
                 if (v) v.classList.add('hidden');
             });
 
             // Reset tab styling
-            [btnNovo, btnLista, btnCheck].forEach(b => {
+            [btnNovo, btnLista, btnCheck, btnConfig].forEach(b => {
                 if (b) b.className = "nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-slate-400 hover:text-slate-200";
             });
 
-            [sideBtnNovo, sideBtnLista, sideBtnCheck].forEach(sb => {
+            [sideBtnNovo, sideBtnLista, sideBtnCheck, sideBtnConfig].forEach(sb => {
                 if (sb && sb !== sideBtnNovo) {
                     sb.className = "w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition";
                 }
@@ -549,6 +636,9 @@
             } else if (tabName === 'checklist') {
                 if (vCheck) vCheck.classList.remove('hidden');
                 if (btnCheck) btnCheck.className = "nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-emerald-400 bg-emerald-950/50 border border-emerald-800/40";
+            } else if (tabName === 'config') {
+                if (vConfig) vConfig.classList.remove('hidden');
+                if (btnConfig) btnConfig.className = "nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-indigo-400 bg-indigo-950/50 border border-indigo-800/40";
             }
         }
 
@@ -564,7 +654,7 @@
             div.innerHTML = `
                 <input type="text" placeholder="Item / Peça / Material" value="${desc}"
                     class="item-desc flex-1 px-3 py-2 text-xs bg-slate-900 border border-baseborder rounded-lg text-white outline-none focus:ring-1 focus:ring-brand-500">
-                <input type="number" placeholder="R$ 0,00" value="${price}" inputmode="decimal" min="0" step="0.01"
+                <input type="number" placeholder="0,00" value="${price}" inputmode="decimal" min="0" step="0.01" oninput="calculateTotals()"
                     class="item-price calc-trigger w-24 px-3 py-2 text-xs bg-slate-900 border border-baseborder rounded-lg text-white outline-none focus:ring-1 focus:ring-brand-500 font-mono text-right">
                 <button type="button" onclick="document.getElementById('${rowId}').remove(); calculateTotals();" 
                     class="p-2 text-slate-500 hover:text-rose-400 transition">
@@ -593,7 +683,8 @@
             if (marginDisp) marginDisp.innerText = `${marginPct}%`;
 
             const subtotal = itemsSum + labor + travel;
-            const grandTotal = subtotal * (1 + (marginPct / 100));
+            // Cálculo exato: Subtotal + (Subtotal * Margem%)
+            const grandTotal = marginPct > 0 ? subtotal * (1 + (marginPct / 100)) : subtotal;
 
             const totalDisp = document.getElementById('totalDisplay');
             if (totalDisp) totalDisp.innerText = `R$ ${grandTotal.toFixed(2).replace('.', ',')}`;
@@ -822,51 +913,129 @@
             const pendingSum = quotesData.filter(q => q.status === 'Pendente').reduce((acc, q) => acc + parseFloat(q.total_amount), 0);
             const grandTotalSum = quotesData.reduce((acc, q) => acc + parseFloat(q.total_amount), 0);
 
-            const sTotal = document.getElementById('sideBadgeTotal');
-            if (sTotal) sTotal.innerText = total;
+            // Atualiza elementos do sidebar
+            const sideTotalApproved = document.getElementById('sideTotalApproved');
+            if (sideTotalApproved) sideTotalApproved.innerText = `R$ ${approvedSum.toFixed(2).replace('.', ',')}`;
 
-            const sApproved = document.getElementById('sideTotalApproved');
-            if (sApproved) sApproved.innerText = `R$ ${approvedSum.toFixed(2).replace('.', ',')}`;
+            const sideTotalPending = document.getElementById('sideTotalPending');
+            if (sideTotalPending) sideTotalPending.innerText = `R$ ${pendingSum.toFixed(2).replace('.', ',')}`;
 
-            const sPending = document.getElementById('sideTotalPending');
-            if (sPending) sPending.innerText = `R$ ${pendingSum.toFixed(2).replace('.', ',')}`;
+            const sideBadgeTotal = document.getElementById('sideBadgeTotal');
+            if (sideBadgeTotal) sideBadgeTotal.innerText = total;
 
-            const mTotal = document.getElementById('mobStatTotal');
-            if (mTotal) mTotal.innerText = total;
+            // Atualiza cards mobile
+            const mobStatTotal = document.getElementById('mobStatTotal');
+            if (mobStatTotal) mobStatTotal.innerText = total;
 
-            const mApproved = document.getElementById('mobStatApproved');
-            if (mApproved) mApproved.innerText = approvedCount;
+            const mobStatApproved = document.getElementById('mobStatApproved');
+            if (mobStatApproved) mobStatApproved.innerText = approvedCount;
 
-            const mAmount = document.getElementById('mobStatAmount');
-            if (mAmount) mAmount.innerText = `R$ ${grandTotalSum.toFixed(2).replace('.', ',')}`;
+            const mobStatAmount = document.getElementById('mobStatAmount');
+            if (mobStatAmount) mobStatAmount.innerText = `R$ ${grandTotalSum.toFixed(2).replace('.', ',')}`;
         }
 
-        // WHATSAPP DISPATCH
-        function enviarWhatsAppDireto() {
-            const data = getFormData();
-            if (!data.clientPhone || !data.clientName) {
-                showToast('Preencha Nome e WhatsApp do Cliente!', 'error');
+        // COMPANY CONFIGURATION LOGIC
+        let uploadedLogoBase64 = '';
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            if (file.size > 2 * 1024 * 1024) { // Max 2MB
+                showToast('A imagem deve ter no máximo 2MB!', 'error');
                 return;
             }
-            enviarWhatsAppOrcamento(data.clientPhone, data.clientName, data.totalAmount, 'novo');
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadedLogoBase64 = e.target.result;
+                mostrarPreviewLogo(uploadedLogoBase64);
+                showToast('Imagem de logo pronta para salvar!', 'info');
+            };
+            reader.readAsDataURL(file);
         }
 
-        function enviarWhatsAppOrcamento(phone, name, amount, id) {
-            const cleanPhone = phone.replace(/\D/g, '');
-            const msg = `Olá *${name}*, segue o seu orçamento do *ServifyHub*:\n\n` +
-                        `💰 *Valor Total:* R$ ${parseFloat(amount).toFixed(2).replace('.', ',')}\n` +
-                        `📄 *Ref:* #${id.slice(0, 8)}\n` +
-                        `🌐 *Acesse:* https://sevfypro.vercel.app/\n\n` +
-                        `Qualquer dúvida ou para aprovar o serviço, responda a esta mensagem!`;
+        function mostrarPreviewLogo(src) {
+            const container = document.getElementById('logoPreviewContainer');
+            const img = document.getElementById('logoPreviewImg');
+            if (container && img && src) {
+                img.src = src;
+                container.classList.remove('hidden');
+            }
+        }
 
-            const url = `https://wa.me/55${cleanPhone}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
+        function removerLogo() {
+            uploadedLogoBase64 = '';
+            const container = document.getElementById('logoPreviewContainer');
+            const fileInput = document.getElementById('companyLogoInput');
+            if (container) container.classList.add('hidden');
+            if (fileInput) fileInput.value = '';
+            showToast('Logo removida', 'info');
+        }
+
+        function salvarConfigEmpresa(e) {
+            e.preventDefault();
+            const config = {
+                name: document.getElementById('companyName').value.trim(),
+                doc: document.getElementById('companyDoc').value.trim(),
+                phone: document.getElementById('companyPhone').value.trim(),
+                logo: uploadedLogoBase64
+            };
+
+            localStorage.setItem('servify_company_config', JSON.stringify(config));
+            
+            // Atualiza o nome da empresa na interface imediatamente se houver
+            if (config.name) {
+                const headerTitle = document.querySelector('header h1');
+                if (headerTitle) {
+                    headerTitle.innerHTML = `${config.name.slice(0, 15)}<span class="text-indigo-400">${config.name.length > 15 ? '...' : ''}</span>`;
+                }
+            }
+
+            showToast('Dados da sua empresa salvos com sucesso!', 'success');
+        }
+
+        function carregarConfigEmpresa() {
+            const saved = localStorage.getItem('servify_company_config');
+            if (saved) {
+                try {
+                    const config = JSON.parse(saved);
+                    if (document.getElementById('companyName')) document.getElementById('companyName').value = config.name || '';
+                    if (document.getElementById('companyDoc')) document.getElementById('companyDoc').value = config.doc || '';
+                    if (document.getElementById('companyPhone')) document.getElementById('companyPhone').value = config.phone || '';
+                    if (config.logo) {
+                        uploadedLogoBase64 = config.logo;
+                        mostrarPreviewLogo(config.logo);
+                    }
+                    if (config.name) {
+                        const headerTitle = document.querySelector('header h1');
+                        if (headerTitle) {
+                            headerTitle.innerHTML = `${config.name.slice(0, 15)}<span class="text-indigo-400">${config.name.length > 15 ? '...' : ''}</span>`;
+                        }
+                    }
+                } catch(e) {}
+            }
         }
 
         // PRINT / PDF PROPOSAL MODAL
         function openPrintModal(id) {
             const q = quotesData.find(item => item.id === id);
             if (!q) return;
+
+            // Load saved company custom branding
+            const savedCompany = localStorage.getItem('servify_company_config');
+            if (savedCompany) {
+                try {
+                    const c = JSON.parse(savedCompany);
+                    if (c.name) document.getElementById('pdfCompanyNameHeader').innerText = c.name;
+                    if (c.doc) document.getElementById('pdfCompanyDocHeader').innerText = `Doc: ${c.doc}`;
+                    if (c.logo) {
+                        const img = document.getElementById('pdfCompanyLogoImg');
+                        img.src = c.logo;
+                        img.classList.remove('hidden');
+                    }
+                } catch(e) {}
+            }
 
             document.getElementById('pdfQuoteDate').innerText = `Data: ${new Date(q.created_at || Date.now()).toLocaleDateString('pt-BR')}`;
             document.getElementById('pdfQuoteId').innerText = `#${q.id.slice(0, 8)}`;
@@ -895,251 +1064,328 @@
             document.getElementById('printModal').classList.add('hidden');
         }
 
+        // WHATSAPP INTEGRATION LOGIC
+        function enviarWhatsAppDireto() {
+            const data = getFormData();
+            if (!data.clientName || !data.clientPhone) {
+                showToast('Preencha Nome e WhatsApp do Cliente para enviar!', 'error');
+                return;
+            }
+
+            let phoneClean = data.clientPhone.replace(/\D/g, '');
+            if (phoneClean.length <= 11 && !phoneClean.startsWith('55')) {
+                phoneClean = '55' + phoneClean;
+            }
+
+            // Busca os dados da empresa salva para padronizar com a proposta em PDF
+            let companyName = 'ServifyHub';
+            let companyPhone = '';
+            let companyDoc = '';
+            const savedCompany = localStorage.getItem('servify_company_config');
+            if (savedCompany) {
+                try {
+                    const c = JSON.parse(savedCompany);
+                    if (c.name) companyName = c.name;
+                    if (c.phone) companyPhone = c.phone;
+                    if (c.doc) companyDoc = c.doc;
+                } catch(e) {}
+            }
+
+            const dataAtual = new Date().toLocaleDateString('pt-BR');
+
+            let msg = `📄 *PROPOSTA COMERCIAL / ORÇAMENTO*\n` +
+                      `🏢 *${companyName}*${companyDoc ? ` (Doc: ${companyDoc})` : ''}\n` +
+                      `📅 Data: ${dataAtual}\n` +
+                      `-----------------------------------\n\n` +
+                      `👤 *CLIENTE:* ${data.clientName}\n` +
+                      `📞 *CONTATO:* ${data.clientPhone}\n` +
+                      `🛠️ *SERVIÇO:* ${data.serviceDesc || 'Serviços Especializados'}\n\n` +
+                      `📋 *DETALHAMENTO DOS ITENS:*\n`;
+
+            if (data.items.length > 0) {
+                data.items.forEach((item, index) => {
+                    msg += `${index + 1}. ${item.desc}: *R$ ${parseFloat(item.price).toFixed(2).replace('.', ',')}*\n`;
+                });
+            } else {
+                msg += `• Mão de Obra e Materiais Inclusos\n`;
+            }
+
+            msg += `\n-----------------------------------\n` +
+                   `💰 *VALOR TOTAL PROPOSTO: R$ ${data.totalAmount.toFixed(2).replace('.', ',')}*\n` +
+                   `⏱️ *VALIDADE DA PROPOSTA:* 7 Dias a partir da emissão\n\n` +
+                   `Ficamos à disposição para esclarecer dúvidas ou confirmar a execução!${companyPhone ? `\n📞 Contato: ${companyPhone}` : ''}`;
+
+            const url = `https://wa.me/${phoneClean}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+            showToast('Redirecionando para o WhatsApp...', 'success');
+        }
+
+        function enviarWhatsAppOrcamento(phone, clientName, totalAmount, quoteId) {
+            let phoneClean = (phone || '').replace(/\D/g, '');
+            if (phoneClean.length <= 11 && !phoneClean.startsWith('55')) {
+                phoneClean = '55' + phoneClean;
+            }
+
+            const q = quotesData.find(item => item.id === quoteId);
+            const desc = q ? q.service_description : 'Serviços Especializados';
+            const items = (q && q.items) ? q.items : [];
+            const dataOrcamento = q ? new Date(q.created_at || Date.now()).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
+
+            // Busca os dados da empresa salva para padronizar com a proposta em PDF
+            let companyName = 'ServifyHub';
+            let companyPhone = '';
+            let companyDoc = '';
+            const savedCompany = localStorage.getItem('servify_company_config');
+            if (savedCompany) {
+                try {
+                    const c = JSON.parse(savedCompany);
+                    if (c.name) companyName = c.name;
+                    if (c.phone) companyPhone = c.phone;
+                    if (c.doc) companyDoc = c.doc;
+                } catch(e) {}
+            }
+
+            let msg = `📄 *PROPOSTA COMERCIAL / ORÇAMENTO*\n` +
+                      `🏢 *${companyName}*${companyDoc ? ` (Doc: ${companyDoc})` : ''}\n` +
+                      `📅 Data: ${dataOrcamento}\n` +
+                      `🔖 N°: #${quoteId.slice(0, 8)}\n` +
+                      `-----------------------------------\n\n` +
+                      `👤 *CLIENTE:* ${clientName}\n` +
+                      `🛠️ *SERVIÇO:* ${desc}\n\n` +
+                      `📋 *DETALHAMENTO DOS ITENS:*\n`;
+
+            if (items.length > 0) {
+                items.forEach((item, index) => {
+                    msg += `${index + 1}. ${item.desc}: *R$ ${parseFloat(item.price).toFixed(2).replace('.', ',')}*\n`;
+                });
+            } else {
+                msg += `• Mão de Obra e Materiais Inclusos\n`;
+            }
+
+            msg += `\n-----------------------------------\n` +
+                   `💰 *VALOR TOTAL PROPOSTO: R$ ${parseFloat(totalAmount).toFixed(2).replace('.', ',')}*\n` +
+                   `⏱️ *VALIDADE DA PROPOSTA:* 7 Dias a partir da emissão\n\n` +
+                   `Ficamos à disposição para esclarecer dúvidas ou confirmar a execução!${companyPhone ? `\n📞 Contato: ${companyPhone}` : ''}`;
+
+            const url = `https://wa.me/${phoneClean}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+            showToast('Redirecionando para o WhatsApp...', 'success');
+        }
+
         function downloadPDF() {
             const element = document.getElementById('pdfContent');
+            if (!element) return;
+            showToast('Gerando documento PDF...', 'info');
             const opt = {
-                margin:       0.5,
-                filename:     'Proposta_ServifyHub.pdf',
+                margin:       0.3,
+                filename:     `Orcamento_Proposta_${Date.now()}.pdf`,
                 image:        { type: 'jpeg', quality: 0.98 },
                 html2canvas:  { scale: 2 },
                 jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
-            html2pdf().set(opt).from(element).save();
-        }
-
-        // AUTH SYSTEM LOGIC
-        function setAuthMode(mode) {
-            authMode = mode;
-            const tabLogin = document.getElementById('tabAuthLogin');
-            const tabReg = document.getElementById('tabAuthRegister');
-            const nameGroup = document.getElementById('registerNameGroup');
-            const lblSubmit = document.getElementById('lblAuthSubmit');
-
-            if (mode === 'register') {
-                tabReg.className = "flex-1 py-2 text-xs font-bold rounded-lg text-white bg-brand-600 shadow-sm transition";
-                tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
-                nameGroup.classList.remove('hidden');
-                lblSubmit.innerText = "Criar Nova Conta";
+            if (window.html2pdf) {
+                window.html2pdf().set(opt).from(element).save().then(() => {
+                    showToast('PDF baixado com sucesso!', 'success');
+                });
             } else {
-                tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-white bg-brand-600 shadow-sm transition";
-                tabReg.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
-                nameGroup.classList.add('hidden');
-                lblSubmit.innerText = "Entrar na Plataforma";
+                window.print();
             }
         }
 
-        async function handleAuthSubmit(e) {
-            e.preventDefault();
-            const email = document.getElementById('authEmail').value.trim();
-            const password = document.getElementById('authPassword').value;
-            const name = document.getElementById('authName')?.value.trim() || '';
-
-            if (!email || !password) {
-                showToast('Informe e-mail e senha válidos!', 'error');
-                return;
-            }
-
-            const btnSubmit = document.getElementById('btnAuthSubmit');
-            if (btnSubmit) btnSubmit.disabled = true;
-
-            try {
-                let authSuccess = false;
-                if (supabaseClient) {
-                    try {
-                        if (authMode === 'register') {
-                            const { data, error } = await supabaseClient.auth.signUp({
-                                email,
-                                password,
-                                options: { data: { name: name || email } }
-                            });
-                            if (error) throw error;
-                            showToast('Cadastro realizado! Faça login com suas credenciais.', 'success');
-                            setAuthMode('login');
-                            if (btnSubmit) btnSubmit.disabled = false;
-                            return;
-                        } else {
-                            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                                email,
-                                password
-                            });
-                            if (error) throw error;
-                            if (data && data.user) {
-                                currentUser = {
-                                    id: data.user.id,
-                                    email: data.user.email,
-                                    status_assinatura: 'Ativo (Pro)'
-                                };
-                                authSuccess = true;
-                            }
-                        }
-                    } catch (supabaseErr) {
-                        console.warn('Supabase Auth falhou, usando sessão local:', supabaseErr);
-                    }
-                }
-
-                if (!authSuccess) {
-                    currentUser = {
-                        id: 'usr_' + Date.now(),
-                        email: email,
-                        status_assinatura: 'Ativo (Pro)'
-                    };
-                }
-
-                localStorage.setItem('servify_session', JSON.stringify(currentUser));
-                document.getElementById('authScreen').classList.add('hidden');
-                const userLbl = document.getElementById('userSessionLabel');
-                if (userLbl) userLbl.innerText = `${currentUser.email}`;
-                showToast(`Bem-vindo ao ServifyHub!`, 'success');
-            } catch (err) {
-                showToast(err.message || 'Erro de autenticação!', 'error');
-            } finally {
-                if (btnSubmit) btnSubmit.disabled = false;
-            }
-        }
-
-        function checkSession() {
-            const saved = localStorage.getItem('servify_session');
-            if (saved) {
-                try {
-                    currentUser = JSON.parse(saved);
-                    document.getElementById('authScreen').classList.add('hidden');
-                    const userLbl = document.getElementById('userSessionLabel');
-                    if (userLbl) userLbl.innerText = `${currentUser.email}`;
-                } catch(e) {
-                    document.getElementById('authScreen').classList.remove('hidden');
-                }
-            } else {
-                document.getElementById('authScreen').classList.remove('hidden');
-            }
-        }
-
-        function handleLogout() {
-            if (supabaseClient) {
-                supabaseClient.auth.signOut().catch(() => {});
-            }
-            currentUser = null;
-            localStorage.removeItem('servify_session');
-            document.getElementById('authScreen').classList.remove('hidden');
-            showToast('Sessão encerrada com sucesso.', 'info');
-        }
-
-        // AUTOMATION HANDLER (RETORNO DE COMPRA DA KIWIFY NA URL)
-        async function processWebhookPayload(payload) {
-            const eventType = payload.order_status || payload.event || payload.status || 'order_approved';
-            const email = (payload.Customer && payload.Customer.email) || payload.email || 'usuario@provedor.com';
-
-            let accessGranted = false;
-            let statusText = 'Pendente';
-
-            if (['order_approved', 'approved', 'paid', 'completed', 'active'].includes(eventType.toLowerCase())) {
-                accessGranted = true;
-                statusText = 'Ativo (Pro)';
-            }
-
-            if (supabaseClient) {
-                try {
-                    await supabaseClient
-                        .from('profiles')
-                        .upsert([{ email: email, status_assinatura: statusText }], { onConflict: 'email' });
-                } catch(err) {
-                    console.warn('Sincronização remota:', err);
-                }
-            }
-
-            if (currentUser && currentUser.email === email) {
-                currentUser.status_assinatura = statusText;
-                localStorage.setItem('servify_session', JSON.stringify(currentUser));
-                const badge = document.getElementById('userSessionLabel');
-                if (badge) badge.innerText = `${currentUser.email} [${statusText}]`;
-            }
-
-            if (accessGranted) {
-                showToast(`🎉 Assinatura APROVADA para ${email}! Acesso Pro liberado.`, 'success');
-            }
-        }
-
-        // CHECKLIST DE CAMPO LOGIC
-        const defaultChecklistTasks = [
-            { id: 1, text: 'Inspeção visual preliminar e teste de funcionamento', done: false },
-            { id: 2, text: 'Verificação de segurança e conexões elétricas/mecânicas', done: false },
-            { id: 3, text: 'Execução do serviço de manutenção ou substituição de peças', done: false },
-            { id: 4, text: 'Limpeza, higienização e organização do local de trabalho', done: false },
-            { id: 5, text: 'Teste final na presença do cliente e emissão de termo', done: false }
+        // CHECKLIST LOGIC
+        const DEFAULT_CHECKLIST = [
+            { id: 'c1', title: 'Inspeção do local de instalação / execução', checked: false },
+            { id: 'c2', title: 'Verificação da rede elétrica e voltagem (110v/220v)', checked: false },
+            { id: 'c3', title: 'Testes de pressão, estanqueidade e vazamentos', checked: false },
+            { id: 'c4', title: 'Fixação de suportes e organização de fiação', checked: false },
+            { id: 'c5', title: 'Limpeza e organização do ambiente do cliente', checked: false },
+            { id: 'c6', title: 'Assinatura / Validação da ordem de serviço com o cliente', checked: false }
         ];
 
-        let checklistState = JSON.parse(localStorage.getItem('servify_checklist_state') || JSON.stringify(defaultChecklistTasks));
+        let checklistItems = JSON.parse(localStorage.getItem('servify_custom_checklist') || JSON.stringify(DEFAULT_CHECKLIST));
 
         function renderChecklist() {
             const container = document.getElementById('checklistItemsContainer');
-            const progressText = document.getElementById('checklistProgressText');
             if (!container) return;
 
-            const completedCount = checklistState.filter(item => item.done).length;
-            if (progressText) progressText.innerText = `Progresso: ${completedCount} de ${checklistState.length} concluídos`;
+            let completed = 0;
+            container.innerHTML = checklistItems.map((item, index) => {
+                if (item.checked) completed++;
+                return `
+                    <div class="flex items-center justify-between p-3 bg-[#0a0e17] rounded-xl border border-baseborder hover:border-slate-700 transition">
+                        <label class="flex items-center gap-3 cursor-pointer flex-1">
+                            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleChecklistItem('${item.id}')"
+                                class="w-4 h-4 accent-emerald-500 rounded cursor-pointer">
+                            <span class="text-xs font-semibold ${item.checked ? 'line-through text-slate-500' : 'text-slate-200'}">${item.title}</span>
+                        </label>
+                        <button onclick="removeChecklistItem('${item.id}')" class="text-slate-500 hover:text-rose-400 p-1 transition">
+                            <i class="fa-solid fa-trash-can text-xs"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
 
-            container.innerHTML = checklistState.map(item => `
-                <label class="flex items-center gap-3 p-3 bg-[#0a0e17] border border-baseborder rounded-xl cursor-pointer hover:border-slate-700 transition">
-                    <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleChecklistItem(${item.id})"
-                        class="w-4 h-4 rounded accent-indigo-500 bg-slate-900 border-baseborder">
-                    <span class="text-xs ${item.done ? 'line-through text-slate-500' : 'text-slate-200'} font-medium">${item.text}</span>
-                </label>
-            `).join('');
+            const progressText = document.getElementById('checklistProgressText');
+            if (progressText) {
+                progressText.innerText = `Progresso: ${completed} de ${checklistItems.length} concluídos`;
+            }
         }
 
         function toggleChecklistItem(id) {
-            const item = checklistState.find(i => i.id === id);
+            const item = checklistItems.find(i => i.id === id);
             if (item) {
-                item.done = !item.done;
-                localStorage.setItem('servify_checklist_state', JSON.stringify(checklistState));
+                item.checked = !item.checked;
+                localStorage.setItem('servify_custom_checklist', JSON.stringify(checklistItems));
                 renderChecklist();
             }
         }
 
-        function resetChecklist() {
-            checklistState = JSON.parse(JSON.stringify(defaultChecklistTasks));
-            localStorage.setItem('servify_checklist_state', JSON.stringify(checklistState));
+        function addCustomChecklistItem() {
+            const input = document.getElementById('newChecklistItemInput');
+            const title = input?.value.trim();
+            if (!title) return;
+
+            checklistItems.push({
+                id: 'c-' + Date.now(),
+                title: title,
+                checked: false
+            });
+
+            localStorage.setItem('servify_custom_checklist', JSON.stringify(checklistItems));
+            input.value = '';
             renderChecklist();
-            showToast('Checklist reiniciado.', 'info');
+            showToast('Item adicionado ao checklist!', 'success');
+        }
+
+        function removeChecklistItem(id) {
+            checklistItems = checklistItems.filter(i => i.id !== id);
+            localStorage.setItem('servify_custom_checklist', JSON.stringify(checklistItems));
+            renderChecklist();
+            showToast('Item removido do checklist.', 'info');
+        }
+
+        function resetChecklist() {
+            checklistItems = JSON.parse(JSON.stringify(DEFAULT_CHECKLIST));
+            localStorage.setItem('servify_custom_checklist', JSON.stringify(checklistItems));
+            renderChecklist();
+            showToast('Checklist reiniciado para o padrão.', 'info');
         }
 
         function compartilharChecklistWhatsApp() {
-            const completedCount = checklistState.filter(item => item.done).length;
-            let msg = `📋 *Relatório Técnico de Execução - ServifyHub*\n\n` +
-                      `Progresso: *${completedCount}/${checklistState.length} etapas concluídas*\n\n`;
-            
-            checklistState.forEach(i => {
-                msg += `${i.done ? '✅' : '⏳'} ${i.text}\n`;
+            let msg = `📋 *RELATÓRIO DE VISTORIA / CHECKLIST DE CAMPO*\n` +
+                      `📅 Data: ${new Date().toLocaleDateString('pt-BR')}\n` +
+                      `-----------------------------------\n\n`;
+
+            checklistItems.forEach(item => {
+                msg += `${item.checked ? '✅' : '❌'} ${item.title}\n`;
             });
+
+            msg += `\n-----------------------------------\n` +
+                   `Serviço inspecionado e validado pelo técnico responsável.`;
 
             const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
         }
 
-        // INITIALIZATION
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
+        // AUTHENTICATION LOGIC
+        function setAuthMode(mode) {
+            authMode = mode;
+            const tabLogin = document.getElementById('tabAuthLogin');
+            const tabRegister = document.getElementById('tabAuthRegister');
+            const regGroup = document.getElementById('registerNameGroup');
+            const btnLabel = document.getElementById('lblAuthSubmit');
 
-            // Captura ativação automática via parâmetros Kiwify na URL (Redirecionamento pós-compra)
-            if (urlParams.get('kiwify_status') === 'approved' || urlParams.get('order_status') === 'paid') {
-                const emailPurchased = urlParams.get('email') || 'cliente@servify.com';
-                processWebhookPayload({
-                    order_status: 'order_approved',
-                    Customer: { email: emailPurchased }
-                });
+            if (mode === 'register') {
+                tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
+                tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg text-white bg-brand-600 shadow-sm transition";
+                if (regGroup) regGroup.classList.remove('hidden');
+                if (btnLabel) btnLabel.innerText = "Criar Nova Conta";
+            } else {
+                tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
+                tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-white bg-brand-600 shadow-sm transition";
+                if (regGroup) regGroup.classList.add('hidden');
+                if (btnLabel) btnLabel.innerText = "Entrar na Plataforma";
+            }
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail')?.value.trim();
+            const password = document.getElementById('authPassword')?.value.trim();
+            const name = document.getElementById('authName')?.value.trim();
+
+            if (!email || !password) {
+                showToast('Preencha e-mail e senha!', 'error');
+                return;
             }
 
-            // Setup calculation triggers
-            document.querySelectorAll('.calc-trigger').forEach(inp => {
-                inp.addEventListener('input', calculateTotals);
+            if (supabaseClient) {
+                try {
+                    if (authMode === 'register') {
+                        const { data, error } = await supabaseClient.auth.signUp({
+                            email,
+                            password,
+                            options: { data: { full_name: name || 'Prestador' } }
+                        });
+                        if (error) throw error;
+                        showToast('Conta criada! Conectando...', 'success');
+                        currentUser = data.user || { id: 'usr_' + Date.now(), email };
+                    } else {
+                        const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                        if (error) throw error;
+                        currentUser = data.user;
+                        showToast('Login realizado com sucesso!', 'success');
+                    }
+                } catch (err) {
+                    console.warn('Fallback Auth Local:', err);
+                    currentUser = { id: 'usr_local', email: email };
+                    showToast('Acessando modo local', 'info');
+                }
+            } else {
+                currentUser = { id: 'usr_local', email: email };
+            }
+
+            document.getElementById('authScreen')?.classList.add('hidden');
+            const sessionLabel = document.getElementById('userSessionLabel');
+            if (sessionLabel) sessionLabel.innerText = currentUser.email;
+        }
+
+        function handleLogout() {
+            if (supabaseClient) supabaseClient.auth.signOut();
+            currentUser = null;
+            document.getElementById('authScreen')?.classList.remove('hidden');
+            showToast('Sessão encerrada.', 'info');
+        }
+
+        // KIWIFY AUTO ACTIVATION CHECK & INITIALIZATION
+        window.onload = function() {
+            // Instancia 2 linhas padrão de itens no orçamento
+            addItemRow('Peça / Material Principal', '');
+
+            // Ativa os listeners nos campos fixos da calculadora
+            document.querySelectorAll('.calc-trigger').forEach(el => {
+                el.addEventListener('input', calculateTotals);
             });
 
-            // Adiciona item inicial ao formulário de orçamento
-            addItemRow('Mão de obra e serviços técnicos', '150.00');
-
-            // Renderiza checklist e dados em cache
+            // Renderiza checklist
             renderChecklist();
-            updateMetrics();
-            checkSession();
+
+            // Carrega dados da empresa salvos
+            carregarConfigEmpresa();
+
+            // Verifica parâmetro Kiwify Redirect
+            const urlParams = new URLSearchParams(window.location.search);
+            const kiwifyStatus = urlParams.get('kiwify_status');
+            const kiwifyEmail = urlParams.get('email');
+
+            if (kiwifyStatus === 'approved' || kiwifyStatus === 'paid') {
+                showToast(`🎉 Parabéns! Assinatura Kiwify APROVADA para ${kiwifyEmail || 'sua conta'}!`, 'success');
+                document.getElementById('authScreen')?.classList.add('hidden');
+            } else {
+                // Tenta fechar o login em modo local caso ja haja sessao
+                document.getElementById('authScreen')?.classList.add('hidden');
+            }
+
             carregarOrcamentosDoSupabase();
         };
     </script>
