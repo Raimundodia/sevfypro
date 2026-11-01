@@ -1008,6 +1008,90 @@
 
         async function handleAuthSubmit(e) {
             e.preventDefault();
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const name = document.getElementById('authName')?.value.trim() || '';
+
+            if (!email || !password) {
+                showToast('Informe e-mail e senha validos!', 'error');
+                return;
+            }
+
+            const btnSubmit = document.getElementById('btnAuthSubmit');
+            if (btnSubmit) btnSubmit.disabled = true;
+
+            try {
+                if (supabaseClient) {
+                    if (authMode === 'register') {
+                        const { data, error } = await supabaseClient.auth.signUp({
+                            email,
+                            password,
+                            options: { data: { name: name || email } }
+                        });
+                        if (error) throw error;
+                        showToast('Cadastro realizado! Faça login com suas credenciais.', 'success');
+                        setAuthMode('login');
+                        if (btnSubmit) btnSubmit.disabled = false;
+                        return;
+                    } else {
+                        const { data, error } = await supabaseClient.auth.signInWithPassword({
+                            email,
+                            password
+                        });
+                        if (error) throw error;
+                        currentUser = {
+                            id: data.user.id,
+                            email: data.user.email,
+                            status_assinatura: 'Ativo (Pro)'
+                        };
+                    }
+                } else {
+                    // Fallback de Autenticacao Local quando sem conexao direta
+                    currentUser = {
+                        id: 'usr_' + Date.now(),
+                        email: email,
+                        status_assinatura: 'Ativo (Pro)'
+                    };
+                }
+
+                localStorage.setItem('servify_session', JSON.stringify(currentUser));
+                document.getElementById('authScreen').classList.add('hidden');
+                const userLbl = document.getElementById('userSessionLabel');
+                if (userLbl) userLbl.innerText = `${currentUser.email}`;
+                showToast(`Bem-vindo ao ServifyHub!`, 'success');
+            } catch (err) {
+                showToast(err.message || 'Erro de autenticação!', 'error');
+            } finally {
+                if (btnSubmit) btnSubmit.disabled = false;
+            }
+        }
+
+        function checkSession() {
+            const saved = localStorage.getItem('servify_session');
+            if (saved) {
+                try {
+                    currentUser = JSON.parse(saved);
+                    document.getElementById('authScreen').classList.add('hidden');
+                    const userLbl = document.getElementById('userSessionLabel');
+                    if (userLbl) userLbl.innerText = `${currentUser.email}`;
+                } catch(e) {
+                    document.getElementById('authScreen').classList.remove('hidden');
+                }
+            } else {
+                document.getElementById('authScreen').classList.remove('hidden');
+            }
+        }
+
+        function handleLogout() {
+            if (supabaseClient) {
+                supabaseClient.auth.signOut().catch(() => {});
+            }
+            currentUser = null;
+            localStorage.removeItem('servify_session');
+            document.getElementById('authScreen').classList.remove('hidden');
+            showToast('Sessão encerrada com sucesso.', 'info');
+        }
+
         // WEBHOOK SYSTEM & AUTOMATION ENGINE
         let webhookLogs = JSON.parse(localStorage.getItem('servify_wh_logs_v1') || '[]');
 
