@@ -1344,22 +1344,27 @@
             renderChecklist();
             renderWebhookLogs();
 
-            // Inscreve no Supabase Realtime para escutar atualizações de webhook na tabela profiles
+            // Inscreve no Supabase Realtime apenas se WebSockets forem permitidos no ambiente
             if (supabaseClient) {
                 try {
-                    supabaseClient
-                        .channel('public:profiles')
-                        .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, payload => {
-                            if (payload.new && payload.new.email) {
-                                processWebhookPayload({
-                                    order_status: payload.new.status_assinatura === 'Ativo (Pro)' ? 'order_approved' : 'subscription_canceled',
-                                    email: payload.new.email
-                                });
-                            }
-                        })
-                        .subscribe();
+                    // Verifica se o protocolo WebSocket é permitido no ambiente de execução
+                    if (typeof WebSocket !== 'undefined' && window.location.protocol !== 'blob:') {
+                        supabaseClient
+                            .channel('public:profiles')
+                            .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, payload => {
+                                if (payload.new && payload.new.email) {
+                                    processWebhookPayload({
+                                        order_status: payload.new.status_assinatura === 'Ativo (Pro)' ? 'order_approved' : 'subscription_canceled',
+                                        email: payload.new.email
+                                    });
+                                }
+                            })
+                            .subscribe((status, err) => {
+                                if (err) console.warn('Supabase Realtime desativado no ambiente atual.');
+                            });
+                    }
                 } catch(e) {
-                    console.warn('Realtime listener indisponível:', e);
+                    console.warn('Realtime listener indisponível ou bloqueado no iFrame:', e);
                 }
             }
         };
