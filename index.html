@@ -131,9 +131,9 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="font-black text-lg tracking-tight text-white">Servify<span class="text-indigo-400">Hub</span></h1>
-                        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">BASE44 LIVE</span>
+                        <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">VERCEL LIVE</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 font-medium">Sistema Pro de Orçamentos & Serviços</p>
+                    <p class="text-[11px] text-slate-400 font-medium">sevfypro.vercel.app</p>
                 </div>
             </div>
             
@@ -176,8 +176,8 @@
                 <button onclick="switchTab('checklist')" id="sideBtnChecklist" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">
                     <i class="fa-solid fa-check-double text-emerald-400 text-sm"></i> Checklist de Campo
                 </button>
-                <button onclick="switchTab('webhooks')" id="sideBtnWebhooks" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition">
-                    <i class="fa-solid fa-bolt text-amber-400 text-sm"></i> Webhooks & Automações
+                <button onclick="switchTab('webhooks')" id="sideBtnWebhooks" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold text-slate-300 hover:bg-slate-800 transition hidden">
+                    <i class="fa-solid fa-bolt text-amber-400 text-sm"></i> Painel Dev / Webhooks
                 </button>
             </div>
 
@@ -396,8 +396,8 @@
                         <span class="font-bold text-amber-400 uppercase tracking-wider text-[10px] block">Como Conectar na Kiwify / Hotmart:</span>
                         <ol class="list-decimal list-inside text-slate-300 space-y-1 text-[11px]">
                             <li>Acesse seu painel na <strong>Kiwify</strong> &gt; <i>Configurações do Produto</i> &gt; <i>Webhooks</i>.</li>
-                            <li>Cole o endereço de endpoint gerado abaixo no campo <strong>URL do Webhook</strong>.</li>
-                            <li>Marque os eventos: <code class="text-indigo-300 font-mono">order_approved</code>, <code class="text-indigo-300 font-mono">subscription_canceled</code> e <code class="text-indigo-300 font-mono">order_refunded</code>.</li>
+                            <li>No campo <strong>URL da Página de Obrigado (Redirect)</strong>, cole: <code class="text-emerald-300 font-mono">https://sevfypro.vercel.app/?kiwify_status=approved&email={email}</code></li>
+                            <li>No campo <strong>URL do Webhook (POST)</strong>, cole o endereço do endpoint abaixo.</li>
                         </ol>
                     </div>
 
@@ -465,7 +465,7 @@
 
     <!-- MOBILE BOTTOM NAVIGATION (BASE44 STYLE) -->
     <nav class="fixed bottom-0 left-0 right-0 z-40 glass-header border-t border-baseborder px-4 py-2 lg:hidden no-print">
-        <div class="max-w-md mx-auto grid grid-cols-4 gap-1">
+        <div class="max-w-md mx-auto grid grid-cols-3 gap-1" id="mobileNavGrid">
             <button id="navBtnNovo" onclick="switchTab('novo')"
                 class="nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-indigo-400 bg-indigo-950/50 border border-indigo-800/40">
                 <i class="fa-solid fa-plus-circle text-sm"></i>
@@ -485,7 +485,7 @@
             </button>
 
             <button id="navBtnWebhooks" onclick="switchTab('webhooks')"
-                class="nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-slate-400 hover:text-slate-200">
+                class="nav-tab py-2 px-2 rounded-xl flex flex-col items-center justify-center gap-1 transition text-slate-400 hover:text-slate-200 hidden">
                 <i class="fa-solid fa-bolt text-sm"></i>
                 <span class="text-[9px] font-extrabold">Webhooks</span>
             </button>
@@ -959,7 +959,8 @@
             const cleanPhone = phone.replace(/\D/g, '');
             const msg = `Olá *${name}*, segue o seu orçamento do *ServifyHub*:\n\n` +
                         `💰 *Valor Total:* R$ ${parseFloat(amount).toFixed(2).replace('.', ',')}\n` +
-                        `📄 *Ref:* #${id.slice(0, 8)}\n\n` +
+                        `📄 *Ref:* #${id.slice(0, 8)}\n` +
+                        `🌐 *Acesse:* https://sevfypro.vercel.app/\n\n` +
                         `Qualquer dúvida ou para aprovar o serviço, responda a esta mensagem!`;
 
             const url = `https://wa.me/55${cleanPhone}?text=${encodeURIComponent(msg)}`;
@@ -1329,6 +1330,25 @@
 
         // INITIALIZATION
         window.onload = function() {
+            // Check URL query string to show Dev Webhooks tab if needed (e.g. ?admin=true)
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true' || window.location.hostname === 'localhost') {
+                document.getElementById('sideBtnWebhooks')?.classList.remove('hidden');
+                document.getElementById('navBtnWebhooks')?.classList.remove('hidden');
+                const grid = document.getElementById('mobileNavGrid');
+                if (grid) grid.className = "max-w-md mx-auto grid grid-cols-4 gap-1";
+            }
+
+            // Captura ativação automática via parâmetros Kiwify na URL (Redirecionamento pós-compra)
+            if (urlParams.get('kiwify_status') === 'approved' || urlParams.get('order_status') === 'paid') {
+                const emailPurchased = urlParams.get('email') || 'cliente@servify.com';
+                processWebhookPayload({
+                    order_status: 'order_approved',
+                    Customer: { email: emailPurchased }
+                });
+                showToast('Assinatura ativada com sucesso via Kiwify!', 'success');
+            }
+
             // Setup calculation triggers
             document.querySelectorAll('.calc-trigger').forEach(inp => {
                 inp.addEventListener('input', calculateTotals);
@@ -1343,30 +1363,6 @@
             carregarOrcamentosDoSupabase();
             renderChecklist();
             renderWebhookLogs();
-
-            // Inscreve no Supabase Realtime apenas se WebSockets forem permitidos no ambiente
-            if (supabaseClient) {
-                try {
-                    // Verifica se o protocolo WebSocket é permitido no ambiente de execução
-                    if (typeof WebSocket !== 'undefined' && window.location.protocol !== 'blob:') {
-                        supabaseClient
-                            .channel('public:profiles')
-                            .on('postgres_changes', { event: '*', schema: 'public', table: 'profiles' }, payload => {
-                                if (payload.new && payload.new.email) {
-                                    processWebhookPayload({
-                                        order_status: payload.new.status_assinatura === 'Ativo (Pro)' ? 'order_approved' : 'subscription_canceled',
-                                        email: payload.new.email
-                                    });
-                                }
-                            })
-                            .subscribe((status, err) => {
-                                if (err) console.warn('Supabase Realtime desativado no ambiente atual.');
-                            });
-                    }
-                } catch(e) {
-                    console.warn('Realtime listener indisponível ou bloqueado no iFrame:', e);
-                }
-            }
         };
     </script>
 </body>
