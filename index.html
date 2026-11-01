@@ -1346,7 +1346,7 @@
                     order_status: 'order_approved',
                     Customer: { email: emailPurchased }
                 });
-                showToast('Assinatura ativada com sucesso via Kiwify!', 'success');
+                showToast(`🎉 Parabéns! Assinatura Kiwify APROVADA para ${emailPurchased}. Acesso Pro ativado!`, 'success');
             }
 
             // Setup calculation triggers
@@ -1354,15 +1354,14 @@
                 inp.addEventListener('input', calculateTotals);
             });
 
-            // Initialize default rows
-            addItemRow('Filtro / Peças de Reposição', '120.00');
-            addItemRow('Higienização Química de Componentes', '80.00');
+            // Adiciona item inicial ao formulário de orçamento
+            addItemRow('Mão de obra e serviços técnicos', '150.00');
 
-            // Load initial session & data
+            // Renderiza checklist e dados em cache
+            renderChecklist();
+            updateMetrics();
             checkSession();
             carregarOrcamentosDoSupabase();
-            renderChecklist();
-            renderWebhookLogs();
         };
     </script>
 </body>
