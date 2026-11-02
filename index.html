@@ -13,20 +13,26 @@
                 extend: {
                     colors: {
                         brand: {
-                            50: '#f0f4ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#0f172a',
-                            950: '#090d16'
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#052e16',
+                            950: '#021e0e'
                         },
-                        basecard: '#131926',
-                        baseborder: '#1f293d'
+                        steel: {
+                            400: '#94a3b8',
+                            500: '#64748b',
+                            600: '#475569',
+                            800: '#1e293b'
+                        },
+                        basecard: '#0f172a',
+                        baseborder: '#1e293b'
                     },
                     boxShadow: {
-                        'glow-indigo': '0 0 25px -4px rgba(99, 102, 241, 0.4)',
-                        'glow-emerald': '0 0 25px -4px rgba(16, 185, 129, 0.4)'
+                        'glow-indigo': '0 0 25px -4px rgba(22, 163, 74, 0.4)',
+                        'glow-emerald': '0 0 25px -4px rgba(22, 163, 74, 0.4)'
                     }
                 }
             }
@@ -70,14 +76,35 @@
     <!-- AUTHENTICATION SCREEN (LOGIN / REGISTER MODAL) -->
     <div id="authScreen" class="fixed inset-0 z-50 bg-[#080c14] flex items-center justify-center p-4">
         <div class="bg-basecard border border-baseborder rounded-3xl p-6 sm:p-8 max-w-md w-full space-y-6 shadow-2xl relative overflow-hidden">
-            <div class="absolute -top-12 -right-12 w-36 h-36 bg-brand-600/20 rounded-full blur-2xl"></div>
+            <div class="absolute -top-12 -right-12 w-36 h-36 bg-emerald-600/20 rounded-full blur-2xl"></div>
             
             <div class="text-center space-y-2 relative z-10">
-                <img src="https://media.base44.com/images/public/6ae544477fde207fc59a5e9e/60fa9d7b8_logo.png" 
-                     onerror="this.onerror=null; this.src='https://placehold.co/100x100/4f46e5/ffffff?text=SH';"
-                     alt="ServifyHub Logo" 
-                     class="w-14 h-14 object-contain rounded-2xl shadow-glow-indigo bg-brand-900 p-2 border border-brand-500/30 mx-auto">
-                <h1 class="text-2xl font-black text-white tracking-tight">Servify<span class="text-indigo-400">Hub</span></h1>
+                <!-- SVG Shield & Gear Logo based on uploaded image -->
+                <div class="w-16 h-16 mx-auto bg-slate-900 border border-slate-700 rounded-2xl p-2 flex items-center justify-center shadow-glow-emerald">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <!-- Shield Background -->
+                        <path d="M50 5 L88 20 C88 60, 68 85, 50 95 C32 85, 12 60, 12 20 Z" fill="url(#shieldGrad)" stroke="#cbd5e1" stroke-width="3"/>
+                        <!-- Gear Half Right -->
+                        <path d="M50 25 A 25 25 0 0 1 75 50 A 25 25 0 0 1 50 75 L 50 67 A 17 17 0 0 0 67 50 A 17 17 0 0 0 50 33 Z" fill="#475569"/>
+                        <!-- Gear Teeth -->
+                        <rect x="73" y="46" width="8" height="8" fill="#475569" transform="rotate(0 77 50)"/>
+                        <rect x="73" y="46" width="8" height="8" fill="#475569" transform="rotate(30 50 50)"/>
+                        <rect x="73" y="46" width="8" height="8" fill="#475569" transform="rotate(60 50 50)"/>
+                        <rect x="73" y="46" width="8" height="8" fill="#475569" transform="rotate(-30 50 50)"/>
+                        <rect x="73" y="46" width="8" height="8" fill="#475569" transform="rotate(-60 50 50)"/>
+                        <!-- Green S Left Half -->
+                        <path d="M 48 30 C 35 30, 32 40, 42 48 C 52 56, 45 70, 30 68 L 30 76 C 52 78, 56 62, 45 54 C 35 46, 40 38, 48 38 Z" fill="#16a34a"/>
+                        <!-- Gradients -->
+                        <defs>
+                            <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#e2e8f0" />
+                                <stop offset="50%" stop-color="#94a3b8" />
+                                <stop offset="100%" stop-color="#475569" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h1 class="text-2xl font-black text-emerald-500 tracking-tight">Servify<span class="text-slate-300">Hub</span></h1>
                 <p class="text-xs text-slate-400">Acesse sua conta ou crie um novo cadastro</p>
             </div>
 
@@ -124,22 +151,33 @@
     <header class="sticky top-0 z-40 glass-header border-b border-baseborder px-4 py-3 no-print">
         <div class="max-w-6xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <img src="https://media.base44.com/images/public/6ae544477fde207fc59a5e9e/60fa9d7b8_logo.png" 
-                     onerror="this.onerror=null; this.src='https://placehold.co/100x100/4f46e5/ffffff?text=SH';"
-                     alt="ServifyHub Logo" 
-                     class="w-9 h-9 object-contain rounded-xl shadow-glow-indigo bg-brand-900 p-1 border border-brand-500/30">
+                <div class="w-10 h-10 bg-slate-900 border border-slate-700 rounded-xl p-1 flex items-center justify-center shadow-glow-emerald">
+                    <svg viewBox="0 0 100 100" class="w-full h-full">
+                        <path d="M50 5 L88 20 C88 60, 68 85, 50 95 C32 85, 12 60, 12 20 Z" fill="url(#hdrShieldGrad)" stroke="#cbd5e1" stroke-width="3"/>
+                        <path d="M50 25 A 25 25 0 0 1 75 50 A 25 25 0 0 1 50 75 L 50 67 A 17 17 0 0 0 67 50 A 17 17 0 0 0 50 33 Z" fill="#475569"/>
+                        <path d="M 48 30 C 35 30, 32 40, 42 48 C 52 56, 45 70, 30 68 L 30 76 C 52 78, 56 62, 45 54 C 35 46, 40 38, 48 38 Z" fill="#16a34a"/>
+                        <defs>
+                            <linearGradient id="hdrShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#e2e8f0" />
+                                <stop offset="50%" stop-color="#94a3b8" />
+                                <stop offset="100%" stop-color="#475569" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
                 <div>
                     <div class="flex items-center gap-2">
-                        <h1 class="font-black text-lg tracking-tight text-white">Servify<span class="text-indigo-400">Hub</span></h1>
+                        <h1 class="font-black text-lg tracking-tight text-emerald-500">Servify<span class="text-slate-200">Hub</span></h1>
                         <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">VERCEL LIVE</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 font-medium">sevfypro.vercel.app</p>
+                    <!-- Nome da Empresa visível na barra superior -->
+                    <p class="text-[11px] text-amber-400 font-bold truncate max-w-[180px]" id="headerCompanyNameDisplay">Sua Empresa Aqui</p>
                 </div>
             </div>
             
             <div class="flex items-center gap-2">
                 <button onclick="carregarOrcamentosDoSupabase()" title="Sincronizar Supabase"
-                        class="w-9 h-9 rounded-xl bg-basecard hover:bg-slate-800 border border-baseborder flex items-center justify-center text-indigo-400 transition active:scale-95">
+                        class="w-9 h-9 rounded-xl bg-basecard hover:bg-slate-800 border border-baseborder flex items-center justify-center text-emerald-400 transition active:scale-95">
                     <i class="fa-solid fa-rotate text-xs" id="syncSpinner"></i>
                 </button>
                 <div class="hidden sm:flex items-center gap-2 pl-2 border-l border-baseborder">
@@ -191,6 +229,11 @@
                 </div>
 
                 <div class="bg-base44-950/60 border border-slate-800/80 p-3 rounded-xl">
+                    <span class="text-[10px] text-slate-400 font-medium">Total Concluído</span>
+                    <h3 class="text-lg font-black text-indigo-400 font-mono mt-0.5" id="sideTotalCompleted">R$ 0,00</h3>
+                </div>
+
+                <div class="bg-base44-950/60 border border-slate-800/80 p-3 rounded-xl">
                     <span class="text-[10px] text-slate-400 font-medium">Em Negociação</span>
                     <h3 class="text-lg font-black text-amber-400 font-mono mt-0.5" id="sideTotalPending">R$ 0,00</h3>
                 </div>
@@ -201,18 +244,22 @@
         <main class="lg:col-span-9 space-y-4">
 
             <!-- MOBILE METRICS ROW -->
-            <div class="grid grid-cols-3 gap-2 sm:gap-3 lg:hidden no-print">
-                <div class="bg-basecard border border-baseborder p-3 rounded-2xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase">Orçamentos</p>
-                    <h4 class="text-base font-black text-white mt-0.5" id="mobStatTotal">0</h4>
+            <div class="grid grid-cols-4 gap-2 sm:gap-3 lg:hidden no-print">
+                <div class="bg-basecard border border-baseborder p-2.5 rounded-2xl">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase">Orçamentos</p>
+                    <h4 class="text-sm font-black text-white mt-0.5" id="mobStatTotal">0</h4>
                 </div>
-                <div class="bg-basecard border border-baseborder p-3 rounded-2xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase">Aprovados</p>
-                    <h4 class="text-base font-black text-emerald-400 mt-0.5" id="mobStatApproved">0</h4>
+                <div class="bg-basecard border border-baseborder p-2.5 rounded-2xl">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase">Aprovados</p>
+                    <h4 class="text-sm font-black text-emerald-400 mt-0.5" id="mobStatApproved">0</h4>
                 </div>
-                <div class="bg-basecard border border-baseborder p-3 rounded-2xl">
-                    <p class="text-[10px] font-bold text-slate-400 uppercase">Estimado</p>
-                    <h4 class="text-xs font-black text-indigo-300 mt-1 truncate" id="mobStatAmount">R$ 0,00</h4>
+                <div class="bg-basecard border border-baseborder p-2.5 rounded-2xl">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase">Concluídos</p>
+                    <h4 class="text-sm font-black text-indigo-400 mt-0.5" id="mobStatCompleted">0</h4>
+                </div>
+                <div class="bg-basecard border border-baseborder p-2.5 rounded-2xl">
+                    <p class="text-[9px] font-bold text-slate-400 uppercase">Aprovado R$</p>
+                    <h4 class="text-xs font-black text-emerald-300 mt-1 truncate" id="mobStatAmount">R$ 0,00</h4>
                 </div>
             </div>
 
@@ -565,14 +612,7 @@
         let authMode = 'login'; // 'login' or 'register'
         let currentStatusFilter = 'Todos';
         let quotesData = JSON.parse(localStorage.getItem('servify_quotes_cache_v1') || '[]');
-
-        try {
-            if (window.supabase) {
-                supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-            }
-        } catch (err) {
-            console.warn('Conexão inicial com Supabase em fallback:', err);
-        }
+        let quoteToDeleteId = null;
 
         // TOAST NOTIFICATIONS
         function showToast(message, type = 'info') {
@@ -833,7 +873,7 @@
             
             let filtered = quotesData.filter(q => {
                 const matchStatus = currentStatusFilter === 'Todos' || q.status === currentStatusFilter;
-                const matchSearch = q.client_name.toLowerCase().includes(searchQuery) || q.service_description.toLowerCase().includes(searchQuery);
+                const matchSearch = (q.client_name || '').toLowerCase().includes(searchQuery) || (q.service_description || '').toLowerCase().includes(searchQuery);
                 return matchStatus && matchSearch;
             });
 
@@ -857,8 +897,11 @@
                                  q.status === 'Concluído' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
                                  'bg-amber-500/10 text-amber-400 border-amber-500/20';
 
+                // Garante um ID seguro em string para o botão
+                const safeId = String(q.id).replace(/'/g, "\\'");
+
                 return `
-                    <div class="bg-basecard border border-baseborder rounded-2xl p-4 shadow-lg hover:border-slate-700 transition space-y-3">
+                    <div class="bg-basecard border border-baseborder rounded-2xl p-4 shadow-lg hover:border-slate-700 transition space-y-3" id="quote-card-${safeId}">
                         <div class="flex justify-between items-start">
                             <div>
                                 <h3 class="font-extrabold text-white text-sm sm:text-base">${q.client_name}</h3>
@@ -874,15 +917,19 @@
                             </div>
 
                             <div class="flex items-center gap-1.5">
-                                <button onclick="enviarWhatsAppOrcamento('${q.client_phone}', '${q.client_name}', ${q.total_amount}, '${q.id}')" 
-                                        class="p-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 transition text-xs font-bold flex items-center gap-1">
+                                <button onclick="enviarWhatsAppOrcamento('${q.client_phone}', '${q.client_name}', ${q.total_amount}, '${safeId}')" 
+                                        class="p-2.5 rounded-xl bg-emerald-600/20 hover:bg-emerald-600 text-emerald-400 hover:text-white border border-emerald-500/30 transition text-xs font-bold flex items-center gap-1" title="Enviar no WhatsApp">
                                     <i class="fa-brands fa-whatsapp text-sm"></i>
                                 </button>
-                                <button onclick="openPrintModal('${q.id}')" 
-                                        class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-baseborder transition text-xs font-bold">
+                                <button onclick="openPrintModal('${safeId}')" 
+                                        class="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-baseborder transition text-xs font-bold" title="PDF / Imprimir">
                                     <i class="fa-solid fa-file-pdf"></i>
                                 </button>
-                                <select onchange="updateQuoteStatus('${q.id}', this.value)" 
+                                <button onclick="solicitarExclusao('${safeId}')" 
+                                        class="p-2.5 rounded-xl bg-rose-950/40 hover:bg-rose-900/80 text-rose-400 border border-rose-800/40 transition text-xs font-bold cursor-pointer" title="Excluir Orçamento">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                                <select onchange="updateQuoteStatus('${safeId}', this.value)" 
                                         class="bg-[#0a0e17] border border-baseborder text-slate-300 text-xs font-bold rounded-xl px-2 py-2 outline-none">
                                     <option value="Pendente" ${q.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
                                     <option value="Aprovado" ${q.status === 'Aprovado' ? 'selected' : ''}>Aprovado</option>
@@ -896,7 +943,7 @@
         }
 
         function updateQuoteStatus(id, newStatus) {
-            const quote = quotesData.find(q => q.id === id);
+            const quote = quotesData.find(q => String(q.id) === String(id));
             if (quote) {
                 quote.status = newStatus;
                 localStorage.setItem('servify_quotes_cache_v1', JSON.stringify(quotesData));
@@ -905,411 +952,371 @@
             }
         }
 
-        function updateMetrics() {
-            const total = quotesData.length;
-            const approvedCount = quotesData.filter(q => q.status === 'Aprovado' || q.status === 'Concluído').length;
+        async function solicitarExclusao(id) {
+            if (!id) return;
             
-            const approvedSum = quotesData.filter(q => q.status === 'Aprovado' || q.status === 'Concluído').reduce((acc, q) => acc + parseFloat(q.total_amount), 0);
-            const pendingSum = quotesData.filter(q => q.status === 'Pendente').reduce((acc, q) => acc + parseFloat(q.total_amount), 0);
-            const grandTotalSum = quotesData.reduce((acc, q) => acc + parseFloat(q.total_amount), 0);
-
-            // Atualiza elementos do sidebar
-            const sideTotalApproved = document.getElementById('sideTotalApproved');
-            if (sideTotalApproved) sideTotalApproved.innerText = `R$ ${approvedSum.toFixed(2).replace('.', ',')}`;
-
-            const sideTotalPending = document.getElementById('sideTotalPending');
-            if (sideTotalPending) sideTotalPending.innerText = `R$ ${pendingSum.toFixed(2).replace('.', ',')}`;
-
-            const sideBadgeTotal = document.getElementById('sideBadgeTotal');
-            if (sideBadgeTotal) sideBadgeTotal.innerText = total;
-
-            // Atualiza cards mobile
-            const mobStatTotal = document.getElementById('mobStatTotal');
-            if (mobStatTotal) mobStatTotal.innerText = total;
-
-            const mobStatApproved = document.getElementById('mobStatApproved');
-            if (mobStatApproved) mobStatApproved.innerText = approvedCount;
-
-            const mobStatAmount = document.getElementById('mobStatAmount');
-            if (mobStatAmount) mobStatAmount.innerText = `R$ ${grandTotalSum.toFixed(2).replace('.', ',')}`;
-        }
-
-        // COMPANY CONFIGURATION LOGIC
-        let uploadedLogoBase64 = '';
-
-        function handleLogoUpload(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            if (file.size > 2 * 1024 * 1024) { // Max 2MB
-                showToast('A imagem deve ter no máximo 2MB!', 'error');
-                return;
+            // Remove imediatamente do DOM/Tela para resposta instantânea
+            const element = document.getElementById(`quote-card-${id}`);
+            if (element) {
+                element.style.opacity = '0.3';
             }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                uploadedLogoBase64 = e.target.result;
-                mostrarPreviewLogo(uploadedLogoBase64);
-                showToast('Imagem de logo pronta para salvar!', 'info');
-            };
-            reader.readAsDataURL(file);
-        }
+            // Atualiza array local filtrando por id numérico ou string
+            quotesData = quotesData.filter(item => String(item.id) !== String(id));
+            localStorage.setItem('servify_quotes_cache_v1', JSON.stringify(quotesData));
 
-        function mostrarPreviewLogo(src) {
-            const container = document.getElementById('logoPreviewContainer');
-            const img = document.getElementById('logoPreviewImg');
-            if (container && img && src) {
-                img.src = src;
-                container.classList.remove('hidden');
-            }
-        }
-
-        function removerLogo() {
-            uploadedLogoBase64 = '';
-            const container = document.getElementById('logoPreviewContainer');
-            const fileInput = document.getElementById('companyLogoInput');
-            if (container) container.classList.add('hidden');
-            if (fileInput) fileInput.value = '';
-            showToast('Logo removida', 'info');
-        }
-
-        function salvarConfigEmpresa(e) {
-            e.preventDefault();
-            const config = {
-                name: document.getElementById('companyName').value.trim(),
-                doc: document.getElementById('companyDoc').value.trim(),
-                phone: document.getElementById('companyPhone').value.trim(),
-                logo: uploadedLogoBase64
-            };
-
-            localStorage.setItem('servify_company_config', JSON.stringify(config));
-            
-            // Atualiza o nome da empresa na interface imediatamente se houver
-            if (config.name) {
-                const headerTitle = document.querySelector('header h1');
-                if (headerTitle) {
-                    headerTitle.innerHTML = `${config.name.slice(0, 15)}<span class="text-indigo-400">${config.name.length > 15 ? '...' : ''}</span>`;
+            // Remove no Supabase se conectado
+            if (supabaseClient) {
+                try {
+                    await supabaseClient.from('quotes').delete().eq('id', id);
+                } catch(e) {
+                    console.warn('Erro ao deletar no banco remoto:', e);
                 }
             }
 
-            showToast('Dados da sua empresa salvos com sucesso!', 'success');
+            // Atualiza a interface e as métricas
+            renderQuotesList();
+            updateMetrics();
+            showToast('Orçamento excluído com sucesso!', 'success');
         }
 
-        function carregarConfigEmpresa() {
-            const saved = localStorage.getItem('servify_company_config');
-            if (saved) {
-                try {
-                    const config = JSON.parse(saved);
-                    if (document.getElementById('companyName')) document.getElementById('companyName').value = config.name || '';
-                    if (document.getElementById('companyDoc')) document.getElementById('companyDoc').value = config.doc || '';
-                    if (document.getElementById('companyPhone')) document.getElementById('companyPhone').value = config.phone || '';
-                    if (config.logo) {
-                        uploadedLogoBase64 = config.logo;
-                        mostrarPreviewLogo(config.logo);
-                    }
-                    if (config.name) {
-                        const headerTitle = document.querySelector('header h1');
-                        if (headerTitle) {
-                            headerTitle.innerHTML = `${config.name.slice(0, 15)}<span class="text-indigo-400">${config.name.length > 15 ? '...' : ''}</span>`;
-                        }
-                    }
-                } catch(e) {}
+        function updateMetrics() {
+            const sideTotalApproved = document.getElementById('sideTotalApproved');
+            const sideTotalCompleted = document.getElementById('sideTotalCompleted');
+            const sideTotalPending = document.getElementById('sideTotalPending');
+
+            const mobStatTotal = document.getElementById('mobStatTotal');
+            const mobStatApproved = document.getElementById('mobStatApproved');
+            const mobStatCompleted = document.getElementById('mobStatCompleted');
+            const mobStatAmount = document.getElementById('mobStatAmount');
+            const sideBadgeTotal = document.getElementById('sideBadgeTotal');
+
+            let approvedSum = 0;
+            let completedSum = 0;
+            let pendingSum = 0;
+            let approvedCount = 0;
+            let completedCount = 0;
+
+            quotesData.forEach(q => {
+                const val = parseFloat(q.total_amount) || 0;
+                if (q.status === 'Aprovado') {
+                    approvedSum += val;
+                    approvedCount++;
+                } else if (q.status === 'Concluído') {
+                    completedSum += val;
+                    completedCount++;
+                } else {
+                    pendingSum += val;
+                }
+            });
+
+            if (sideTotalApproved) sideTotalApproved.innerText = `R$ ${approvedSum.toFixed(2).replace('.', ',')}`;
+            if (sideTotalCompleted) sideTotalCompleted.innerText = `R$ ${completedSum.toFixed(2).replace('.', ',')}`;
+            if (sideTotalPending) sideTotalPending.innerText = `R$ ${pendingSum.toFixed(2).replace('.', ',')}`;
+
+            if (mobStatTotal) mobStatTotal.innerText = quotesData.length;
+            if (mobStatApproved) mobStatApproved.innerText = approvedCount;
+            if (mobStatCompleted) mobStatCompleted.innerText = completedCount;
+            if (mobStatAmount) mobStatAmount.innerText = `R$ ${(approvedSum + completedSum).toFixed(2).replace('.', ',')}`;
+            if (sideBadgeTotal) sideBadgeTotal.innerText = quotesData.length;
+        }
+
+        // WHATSAPP INTEGRATION WITH STANDARDIZED FORMAL LAYOUT
+        function buildWhatsAppMessage(clientName, serviceDesc, items, totalVal) {
+            const companyConfig = JSON.parse(localStorage.getItem('servify_company_config') || '{}');
+            const compName = companyConfig.name || 'ServifyHub';
+            const compDoc = companyConfig.doc ? `\nCNPJ/CPF: ${companyConfig.doc}` : '';
+            const compPhone = companyConfig.phone ? `\nContato: ${companyConfig.phone}` : '';
+
+            const today = new Date().toLocaleDateString('pt-BR');
+            let itemsText = '';
+            
+            if (items && items.length > 0) {
+                itemsText = '\n\n*DETALHAMENTO DOS ITENS:*\n' + items.map((it, idx) => 
+                    `  ${idx + 1}. ${it.desc} - R$ ${parseFloat(it.price || 0).toFixed(2).replace('.', ',')}`
+                ).join('\n');
             }
+
+            const formattedTotal = parseFloat(totalVal || 0).toFixed(2).replace('.', ',');
+
+            return `📋 *PROPOSTA COMERCIAL DE SERVIÇOS*
+*${compName.toUpperCase()}*${compDoc}${compPhone}
+──────────────────────────────
+🗓 *Data:* ${today}
+👤 *Cliente:* ${clientName || 'Cliente'}
+🔧 *Serviço:* ${serviceDesc || 'Atendimento Geral'}${itemsText}
+
+──────────────────────────────
+💰 *VALOR TOTAL PROPOSTO: R$ ${formattedTotal}*
+⏱ *Validade:* 7 dias a partir desta data.
+
+Ficamos à disposição para esclarecer qualquer dúvida ou agendar a execução do serviço!`;
         }
 
-        // PRINT / PDF PROPOSAL MODAL
+        function enviarWhatsAppDireto() {
+            const data = getFormData();
+            if (!data.clientPhone) {
+                showToast('Informe o número de WhatsApp do cliente!', 'error');
+                return;
+            }
+            const cleanPhone = data.clientPhone.replace(/\D/g, '');
+            const msg = buildWhatsAppMessage(data.clientName, data.serviceDesc, data.items, data.totalAmount);
+            const url = `https://wa.me/55${cleanPhone}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        function enviarWhatsAppOrcamento(phone, name, total, id) {
+            const quote = quotesData.find(q => String(q.id) === String(id));
+            const cleanPhone = (phone || '').replace(/\D/g, '');
+            if (!cleanPhone) {
+                showToast('Telefone inválido para WhatsApp!', 'error');
+                return;
+            }
+            const items = quote ? quote.items : [];
+            const serviceDesc = quote ? quote.service_description : 'Serviço Geral';
+            const msg = buildWhatsAppMessage(name, serviceDesc, items, total);
+            const url = `https://wa.me/55${cleanPhone}?text=${encodeURIComponent(msg)}`;
+            window.open(url, '_blank');
+        }
+
+        // PRINT / PDF MODAL
         function openPrintModal(id) {
-            const q = quotesData.find(item => item.id === id);
-            if (!q) return;
+            const quote = quotesData.find(q => String(q.id) === String(id));
+            if (!quote) return;
 
-            // Load saved company custom branding
-            const savedCompany = localStorage.getItem('servify_company_config');
-            if (savedCompany) {
-                try {
-                    const c = JSON.parse(savedCompany);
-                    if (c.name) document.getElementById('pdfCompanyNameHeader').innerText = c.name;
-                    if (c.doc) document.getElementById('pdfCompanyDocHeader').innerText = `Doc: ${c.doc}`;
-                    if (c.logo) {
-                        const img = document.getElementById('pdfCompanyLogoImg');
-                        img.src = c.logo;
-                        img.classList.remove('hidden');
-                    }
-                } catch(e) {}
+            const companyConfig = JSON.parse(localStorage.getItem('servify_company_config') || '{}');
+            const compName = companyConfig.name || 'ServifyHub';
+            
+            document.getElementById('pdfCompanyNameHeader').innerText = compName;
+            document.getElementById('pdfCompanyDocHeader').innerText = companyConfig.doc ? `CNPJ/CPF: ${companyConfig.doc}` : '';
+            
+            const logoImg = document.getElementById('pdfCompanyLogoImg');
+            if (companyConfig.logo) {
+                logoImg.src = companyConfig.logo;
+                logoImg.classList.remove('hidden');
+            } else {
+                logoImg.classList.add('hidden');
             }
 
-            document.getElementById('pdfQuoteDate').innerText = `Data: ${new Date(q.created_at || Date.now()).toLocaleDateString('pt-BR')}`;
-            document.getElementById('pdfQuoteId').innerText = `#${q.id.slice(0, 8)}`;
-            document.getElementById('pdfClientName').innerText = q.client_name;
-            document.getElementById('pdfClientPhone').innerText = q.client_phone;
-            document.getElementById('pdfServiceDesc').innerText = q.service_description || 'Serviços Especializados';
-            document.getElementById('pdfTotalAmount').innerText = `R$ ${parseFloat(q.total_amount).toFixed(2).replace('.', ',')}`;
+            document.getElementById('pdfQuoteDate').innerText = `Data: ${new Date(quote.created_at || Date.now()).toLocaleDateString('pt-BR')}`;
+            document.getElementById('pdfQuoteId').innerText = `#${String(quote.id).slice(-6)}`;
+            document.getElementById('pdfClientName').innerText = quote.client_name;
+            document.getElementById('pdfClientPhone').innerText = quote.client_phone;
+            document.getElementById('pdfServiceDesc').innerText = quote.service_description || 'Serviço Prestado';
 
-            const table = document.getElementById('pdfItemsTable');
-            table.innerHTML = (q.items && q.items.length > 0) ? q.items.map(i => `
-                <tr class="border-b border-slate-100">
-                    <td class="p-2 text-slate-800 font-medium">${i.desc}</td>
-                    <td class="p-2 text-right font-mono text-slate-700">R$ ${parseFloat(i.price).toFixed(2).replace('.', ',')}</td>
-                </tr>
-            `).join('') : `
-                <tr class="border-b border-slate-100">
-                    <td class="p-2 text-slate-800 font-medium">Serviço de Mão de Obra e Materiais</td>
-                    <td class="p-2 text-right font-mono text-slate-700">R$ ${parseFloat(q.total_amount).toFixed(2).replace('.', ',')}</td>
-                </tr>
-            `;
+            const itemsTable = document.getElementById('pdfItemsTable');
+            if (itemsTable) {
+                if (quote.items && quote.items.length > 0) {
+                    itemsTable.innerHTML = quote.items.map(it => `
+                        <tr class="border-b border-slate-100">
+                            <td class="p-2 text-slate-700">${it.desc}</td>
+                            <td class="p-2 text-right font-mono text-slate-800 font-bold">R$ ${parseFloat(it.price || 0).toFixed(2).replace('.', ',')}</td>
+                        </tr>
+                    `).join('');
+                } else {
+                    itemsTable.innerHTML = `
+                        <tr class="border-b border-slate-100">
+                            <td class="p-2 text-slate-700">Mão de obra e serviços inclusos na proposta</td>
+                            <td class="p-2 text-right font-mono text-slate-800 font-bold">R$ ${parseFloat(quote.total_amount).toFixed(2).replace('.', ',')}</td>
+                        </tr>
+                    `;
+                }
+            }
 
-            document.getElementById('printModal').classList.remove('hidden');
+            document.getElementById('pdfTotalAmount').innerText = `R$ ${parseFloat(quote.total_amount).toFixed(2).replace('.', ',')}`;
+
+            const modal = document.getElementById('printModal');
+            if (modal) modal.classList.remove('hidden');
         }
 
         function closePrintModal() {
-            document.getElementById('printModal').classList.add('hidden');
-        }
-
-        // WHATSAPP INTEGRATION LOGIC
-        function enviarWhatsAppDireto() {
-            const data = getFormData();
-            if (!data.clientName || !data.clientPhone) {
-                showToast('Preencha Nome e WhatsApp do Cliente para enviar!', 'error');
-                return;
-            }
-
-            let phoneClean = data.clientPhone.replace(/\D/g, '');
-            if (phoneClean.length <= 11 && !phoneClean.startsWith('55')) {
-                phoneClean = '55' + phoneClean;
-            }
-
-            // Busca os dados da empresa salva para padronizar com a proposta em PDF
-            let companyName = 'ServifyHub';
-            let companyPhone = '';
-            let companyDoc = '';
-            const savedCompany = localStorage.getItem('servify_company_config');
-            if (savedCompany) {
-                try {
-                    const c = JSON.parse(savedCompany);
-                    if (c.name) companyName = c.name;
-                    if (c.phone) companyPhone = c.phone;
-                    if (c.doc) companyDoc = c.doc;
-                } catch(e) {}
-            }
-
-            const dataAtual = new Date().toLocaleDateString('pt-BR');
-
-            let msg = `📄 *PROPOSTA COMERCIAL / ORÇAMENTO*\n` +
-                      `🏢 *${companyName}*${companyDoc ? ` (Doc: ${companyDoc})` : ''}\n` +
-                      `📅 Data: ${dataAtual}\n` +
-                      `-----------------------------------\n\n` +
-                      `👤 *CLIENTE:* ${data.clientName}\n` +
-                      `📞 *CONTATO:* ${data.clientPhone}\n` +
-                      `🛠️ *SERVIÇO:* ${data.serviceDesc || 'Serviços Especializados'}\n\n` +
-                      `📋 *DETALHAMENTO DOS ITENS:*\n`;
-
-            if (data.items.length > 0) {
-                data.items.forEach((item, index) => {
-                    msg += `${index + 1}. ${item.desc}: *R$ ${parseFloat(item.price).toFixed(2).replace('.', ',')}*\n`;
-                });
-            } else {
-                msg += `• Mão de Obra e Materiais Inclusos\n`;
-            }
-
-            msg += `\n-----------------------------------\n` +
-                   `💰 *VALOR TOTAL PROPOSTO: R$ ${data.totalAmount.toFixed(2).replace('.', ',')}*\n` +
-                   `⏱️ *VALIDADE DA PROPOSTA:* 7 Dias a partir da emissão\n\n` +
-                   `Ficamos à disposição para esclarecer dúvidas ou confirmar a execução!${companyPhone ? `\n📞 Contato: ${companyPhone}` : ''}`;
-
-            const url = `https://wa.me/${phoneClean}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
-            showToast('Redirecionando para o WhatsApp...', 'success');
-        }
-
-        function enviarWhatsAppOrcamento(phone, clientName, totalAmount, quoteId) {
-            let phoneClean = (phone || '').replace(/\D/g, '');
-            if (phoneClean.length <= 11 && !phoneClean.startsWith('55')) {
-                phoneClean = '55' + phoneClean;
-            }
-
-            const q = quotesData.find(item => item.id === quoteId);
-            const desc = q ? q.service_description : 'Serviços Especializados';
-            const items = (q && q.items) ? q.items : [];
-            const dataOrcamento = q ? new Date(q.created_at || Date.now()).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR');
-
-            // Busca os dados da empresa salva para padronizar com a proposta em PDF
-            let companyName = 'ServifyHub';
-            let companyPhone = '';
-            let companyDoc = '';
-            const savedCompany = localStorage.getItem('servify_company_config');
-            if (savedCompany) {
-                try {
-                    const c = JSON.parse(savedCompany);
-                    if (c.name) companyName = c.name;
-                    if (c.phone) companyPhone = c.phone;
-                    if (c.doc) companyDoc = c.doc;
-                } catch(e) {}
-            }
-
-            let msg = `📄 *PROPOSTA COMERCIAL / ORÇAMENTO*\n` +
-                      `🏢 *${companyName}*${companyDoc ? ` (Doc: ${companyDoc})` : ''}\n` +
-                      `📅 Data: ${dataOrcamento}\n` +
-                      `🔖 N°: #${quoteId.slice(0, 8)}\n` +
-                      `-----------------------------------\n\n` +
-                      `👤 *CLIENTE:* ${clientName}\n` +
-                      `🛠️ *SERVIÇO:* ${desc}\n\n` +
-                      `📋 *DETALHAMENTO DOS ITENS:*\n`;
-
-            if (items.length > 0) {
-                items.forEach((item, index) => {
-                    msg += `${index + 1}. ${item.desc}: *R$ ${parseFloat(item.price).toFixed(2).replace('.', ',')}*\n`;
-                });
-            } else {
-                msg += `• Mão de Obra e Materiais Inclusos\n`;
-            }
-
-            msg += `\n-----------------------------------\n` +
-                   `💰 *VALOR TOTAL PROPOSTO: R$ ${parseFloat(totalAmount).toFixed(2).replace('.', ',')}*\n` +
-                   `⏱️ *VALIDADE DA PROPOSTA:* 7 Dias a partir da emissão\n\n` +
-                   `Ficamos à disposição para esclarecer dúvidas ou confirmar a execução!${companyPhone ? `\n📞 Contato: ${companyPhone}` : ''}`;
-
-            const url = `https://wa.me/${phoneClean}?text=${encodeURIComponent(msg)}`;
-            window.open(url, '_blank');
-            showToast('Redirecionando para o WhatsApp...', 'success');
+            const modal = document.getElementById('printModal');
+            if (modal) modal.classList.add('hidden');
         }
 
         function downloadPDF() {
             const element = document.getElementById('pdfContent');
             if (!element) return;
-            showToast('Gerando documento PDF...', 'info');
             const opt = {
-                margin:       0.3,
-                filename:     `Orcamento_Proposta_${Date.now()}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                margin: 0.5,
+                filename: 'Proposta_ServifyHub.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
-            if (window.html2pdf) {
-                window.html2pdf().set(opt).from(element).save().then(() => {
-                    showToast('PDF baixado com sucesso!', 'success');
-                });
-            } else {
-                window.print();
-            }
+            html2pdf().set(opt).from(element).save();
         }
 
-        // CHECKLIST LOGIC
-        const DEFAULT_CHECKLIST = [
-            { id: 'c1', title: 'Inspeção do local de instalação / execução', checked: false },
-            { id: 'c2', title: 'Verificação da rede elétrica e voltagem (110v/220v)', checked: false },
-            { id: 'c3', title: 'Testes de pressão, estanqueidade e vazamentos', checked: false },
-            { id: 'c4', title: 'Fixação de suportes e organização de fiação', checked: false },
-            { id: 'c5', title: 'Limpeza e organização do ambiente do cliente', checked: false },
-            { id: 'c6', title: 'Assinatura / Validação da ordem de serviço com o cliente', checked: false }
-        ];
-
-        let checklistItems = JSON.parse(localStorage.getItem('servify_custom_checklist') || JSON.stringify(DEFAULT_CHECKLIST));
+        // CHECKLIST MANAGEMENT
+        let checklistData = JSON.parse(localStorage.getItem('servify_checklist_cache') || '[]');
+        if (checklistData.length === 0) {
+            checklistData = [
+                { id: 1, text: 'Vistoria inicial e avaliação do local', done: false },
+                { id: 2, text: 'Isolamento e proteção da área de trabalho', done: false },
+                { id: 3, text: 'Conferência dos equipamentos e materiais de instalação', done: false },
+                { id: 4, text: 'Execução do serviço técnico acordado', done: false },
+                { id: 5, text: 'Testes de funcionamento e verificação de segurança', done: false },
+                { id: 6, text: 'Limpeza e entrega do ambiente ao cliente', done: false }
+            ];
+        }
 
         function renderChecklist() {
             const container = document.getElementById('checklistItemsContainer');
             if (!container) return;
 
-            let completed = 0;
-            container.innerHTML = checklistItems.map((item, index) => {
-                if (item.checked) completed++;
-                return `
-                    <div class="flex items-center justify-between p-3 bg-[#0a0e17] rounded-xl border border-baseborder hover:border-slate-700 transition">
-                        <label class="flex items-center gap-3 cursor-pointer flex-1">
-                            <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleChecklistItem('${item.id}')"
-                                class="w-4 h-4 accent-emerald-500 rounded cursor-pointer">
-                            <span class="text-xs font-semibold ${item.checked ? 'line-through text-slate-500' : 'text-slate-200'}">${item.title}</span>
-                        </label>
-                        <button onclick="removeChecklistItem('${item.id}')" class="text-slate-500 hover:text-rose-400 p-1 transition">
-                            <i class="fa-solid fa-trash-can text-xs"></i>
-                        </button>
-                    </div>
-                `;
-            }).join('');
+            container.innerHTML = checklistData.map(item => `
+                <div class="flex items-center justify-between bg-[#0a0e17] p-3 rounded-xl border border-baseborder hover:border-slate-700 transition">
+                    <label class="flex items-center gap-3 cursor-pointer flex-1">
+                        <input type="checkbox" ${item.done ? 'checked' : ''} onchange="toggleChecklistItem(${item.id})"
+                               class="w-4 h-4 text-emerald-600 bg-slate-900 border-baseborder rounded focus:ring-emerald-500">
+                        <span class="text-xs text-slate-300 font-medium ${item.done ? 'line-through text-slate-500' : ''}">${item.text}</span>
+                    </label>
+                    <button onclick="removeChecklistItem(${item.id})" class="text-slate-600 hover:text-rose-400 p-1 transition">
+                        <i class="fa-solid fa-xmark text-xs"></i>
+                    </button>
+                </div>
+            `).join('');
 
+            const doneCount = checklistData.filter(i => i.done).length;
             const progressText = document.getElementById('checklistProgressText');
             if (progressText) {
-                progressText.innerText = `Progresso: ${completed} de ${checklistItems.length} concluídos`;
+                progressText.innerText = `Progresso: ${doneCount} de ${checklistData.length} concluídos`;
             }
         }
 
         function toggleChecklistItem(id) {
-            const item = checklistItems.find(i => i.id === id);
+            const item = checklistData.find(i => i.id === id);
             if (item) {
-                item.checked = !item.checked;
-                localStorage.setItem('servify_custom_checklist', JSON.stringify(checklistItems));
+                item.done = !item.done;
+                localStorage.setItem('servify_checklist_cache', JSON.stringify(checklistData));
                 renderChecklist();
             }
         }
 
         function addCustomChecklistItem() {
             const input = document.getElementById('newChecklistItemInput');
-            const title = input?.value.trim();
-            if (!title) return;
+            const text = input ? input.value.trim() : '';
+            if (!text) return;
 
-            checklistItems.push({
-                id: 'c-' + Date.now(),
-                title: title,
-                checked: false
-            });
-
-            localStorage.setItem('servify_custom_checklist', JSON.stringify(checklistItems));
-            input.value = '';
+            checklistData.push({ id: Date.now(), text, done: false });
+            localStorage.setItem('servify_checklist_cache', JSON.stringify(checklistData));
+            if (input) input.value = '';
             renderChecklist();
             showToast('Item adicionado ao checklist!', 'success');
         }
 
         function removeChecklistItem(id) {
-            checklistItems = checklistItems.filter(i => i.id !== id);
-            localStorage.setItem('servify_custom_checklist', JSON.stringify(checklistItems));
+            checklistData = checklistData.filter(i => i.id !== id);
+            localStorage.setItem('servify_checklist_cache', JSON.stringify(checklistData));
             renderChecklist();
-            showToast('Item removido do checklist.', 'info');
         }
 
         function resetChecklist() {
-            checklistItems = JSON.parse(JSON.stringify(DEFAULT_CHECKLIST));
-            localStorage.setItem('servify_custom_checklist', JSON.stringify(checklistItems));
+            checklistData.forEach(i => i.done = false);
+            localStorage.setItem('servify_checklist_cache', JSON.stringify(checklistData));
             renderChecklist();
-            showToast('Checklist reiniciado para o padrão.', 'info');
+            showToast('Checklist reiniciado!', 'info');
         }
 
         function compartilharChecklistWhatsApp() {
-            let msg = `📋 *RELATÓRIO DE VISTORIA / CHECKLIST DE CAMPO*\n` +
-                      `📅 Data: ${new Date().toLocaleDateString('pt-BR')}\n` +
-                      `-----------------------------------\n\n`;
-
-            checklistItems.forEach(item => {
-                msg += `${item.checked ? '✅' : '❌'} ${item.title}\n`;
+            const doneCount = checklistData.filter(i => i.done).length;
+            let msg = `📋 *RELATÓRIO TÉCNICO DE CAMPO*\n\n`;
+            checklistData.forEach(i => {
+                msg += `${i.done ? '✅' : '❌'} ${i.text}\n`;
             });
-
-            msg += `\n-----------------------------------\n` +
-                   `Serviço inspecionado e validado pelo técnico responsável.`;
+            msg += `\n*Status:* ${doneCount} de ${checklistData.length} etapas concluídas.`;
 
             const url = `https://wa.me/?text=${encodeURIComponent(msg)}`;
             window.open(url, '_blank');
         }
 
-        // AUTHENTICATION LOGIC
+        // COMPANY CONFIGURATION
+        let currentLogoBase64 = '';
+
+        function handleLogoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                currentLogoBase64 = e.target.result;
+                const previewImg = document.getElementById('logoPreviewImg');
+                const container = document.getElementById('logoPreviewContainer');
+                if (previewImg) previewImg.src = currentLogoBase64;
+                if (container) container.classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function removerLogo() {
+            currentLogoBase64 = '';
+            const container = document.getElementById('logoPreviewContainer');
+            const input = document.getElementById('companyLogoInput');
+            if (container) container.classList.add('hidden');
+            if (input) input.value = '';
+        }
+
+        function salvarConfigEmpresa(event) {
+            if (event) event.preventDefault();
+
+            const name = document.getElementById('companyName')?.value.trim() || 'Sua Empresa Aqui';
+            const doc = document.getElementById('companyDoc')?.value.trim() || '';
+            const phone = document.getElementById('companyPhone')?.value.trim() || '';
+
+            const config = { name, doc, phone, logo: currentLogoBase64 };
+            localStorage.setItem('servify_company_config', JSON.stringify(config));
+
+            const headerDisp = document.getElementById('headerCompanyNameDisplay');
+            if (headerDisp) headerDisp.innerText = name;
+
+            showToast('Dados da Empresa salvos com sucesso!', 'success');
+        }
+
+        function carregarConfigEmpresa() {
+            const config = JSON.parse(localStorage.getItem('servify_company_config') || '{}');
+            
+            const nameInput = document.getElementById('companyName');
+            const docInput = document.getElementById('companyDoc');
+            const phoneInput = document.getElementById('companyPhone');
+            const headerDisp = document.getElementById('headerCompanyNameDisplay');
+
+            if (nameInput) nameInput.value = config.name || '';
+            if (docInput) docInput.value = config.doc || '';
+            if (phoneInput) phoneInput.value = config.phone || '';
+            if (headerDisp) headerDisp.innerText = config.name || 'Sua Empresa Aqui';
+
+            if (config.logo) {
+                currentLogoBase64 = config.logo;
+                const previewImg = document.getElementById('logoPreviewImg');
+                const container = document.getElementById('logoPreviewContainer');
+                if (previewImg) previewImg.src = config.logo;
+                if (container) container.classList.remove('hidden');
+            }
+        }
+
+        // AUTHENTICATION MANAGEMENT
         function setAuthMode(mode) {
             authMode = mode;
             const tabLogin = document.getElementById('tabAuthLogin');
             const tabRegister = document.getElementById('tabAuthRegister');
-            const regGroup = document.getElementById('registerNameGroup');
-            const btnLabel = document.getElementById('lblAuthSubmit');
+            const nameGroup = document.getElementById('registerNameGroup');
+            const lblSubmit = document.getElementById('lblAuthSubmit');
 
             if (mode === 'register') {
-                tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
-                tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg text-white bg-brand-600 shadow-sm transition";
-                if (regGroup) regGroup.classList.remove('hidden');
-                if (btnLabel) btnLabel.innerText = "Criar Nova Conta";
+                if (tabRegister) tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg text-white bg-brand-600 shadow-sm transition";
+                if (tabLogin) tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
+                if (nameGroup) nameGroup.classList.remove('hidden');
+                if (lblSubmit) lblSubmit.innerText = 'Criar Nova Conta';
             } else {
-                tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
-                tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-white bg-brand-600 shadow-sm transition";
-                if (regGroup) regGroup.classList.add('hidden');
-                if (btnLabel) btnLabel.innerText = "Entrar na Plataforma";
+                if (tabLogin) tabLogin.className = "flex-1 py-2 text-xs font-bold rounded-lg text-white bg-brand-600 shadow-sm transition";
+                if (tabRegister) tabRegister.className = "flex-1 py-2 text-xs font-bold rounded-lg text-slate-400 hover:text-white transition";
+                if (nameGroup) nameGroup.classList.add('hidden');
+                if (lblSubmit) lblSubmit.innerText = 'Entrar na Plataforma';
             }
         }
 
-        async function handleAuthSubmit(e) {
-            e.preventDefault();
+        async function handleAuthSubmit(event) {
+            event.preventDefault();
             const email = document.getElementById('authEmail')?.value.trim();
             const password = document.getElementById('authPassword')?.value.trim();
             const name = document.getElementById('authName')?.value.trim();
@@ -1325,68 +1332,71 @@
                         const { data, error } = await supabaseClient.auth.signUp({
                             email,
                             password,
-                            options: { data: { full_name: name || 'Prestador' } }
+                            options: { data: { full_name: name } }
                         });
                         if (error) throw error;
-                        showToast('Conta criada! Conectando...', 'success');
-                        currentUser = data.user || { id: 'usr_' + Date.now(), email };
+                        showToast('Cadastro realizado com sucesso!', 'success');
+                        currentUser = data.user;
                     } else {
                         const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
                         if (error) throw error;
-                        currentUser = data.user;
                         showToast('Login realizado com sucesso!', 'success');
+                        currentUser = data.user;
                     }
                 } catch (err) {
-                    console.warn('Fallback Auth Local:', err);
-                    currentUser = { id: 'usr_local', email: email };
-                    showToast('Acessando modo local', 'info');
+                    showToast(err.message || 'Erro na autenticação. Entrando em modo offline.', 'error');
+                    currentUser = { id: 'offline-user', email };
                 }
             } else {
-                currentUser = { id: 'usr_local', email: email };
+                currentUser = { id: 'offline-user', email };
             }
 
-            document.getElementById('authScreen')?.classList.add('hidden');
+            hideAuthScreen();
+            carregarOrcamentosDoSupabase();
+        }
+
+        function hideAuthScreen() {
+            const authScreen = document.getElementById('authScreen');
+            if (authScreen) authScreen.classList.add('hidden');
             const sessionLabel = document.getElementById('userSessionLabel');
-            if (sessionLabel) sessionLabel.innerText = currentUser.email;
+            if (sessionLabel && currentUser) {
+                sessionLabel.innerText = currentUser.email ? currentUser.email.split('@')[0] : 'Conectado';
+            }
         }
 
         function handleLogout() {
-            if (supabaseClient) supabaseClient.auth.signOut();
+            if (supabaseClient) {
+                supabaseClient.auth.signOut();
+            }
             currentUser = null;
-            document.getElementById('authScreen')?.classList.remove('hidden');
-            showToast('Sessão encerrada.', 'info');
+            const authScreen = document.getElementById('authScreen');
+            if (authScreen) authScreen.classList.remove('hidden');
+            showToast('Sessão encerrada', 'info');
         }
 
-        // KIWIFY AUTO ACTIVATION CHECK & INITIALIZATION
-        window.onload = function() {
-            // Instancia 2 linhas padrão de itens no orçamento
-            addItemRow('Peça / Material Principal', '');
-
-            // Ativa os listeners nos campos fixos da calculadora
-            document.querySelectorAll('.calc-trigger').forEach(el => {
-                el.addEventListener('input', calculateTotals);
-            });
-
-            // Renderiza checklist
-            renderChecklist();
-
-            // Carrega dados da empresa salvos
-            carregarConfigEmpresa();
-
-            // Verifica parâmetro Kiwify Redirect
-            const urlParams = new URLSearchParams(window.location.search);
-            const kiwifyStatus = urlParams.get('kiwify_status');
-            const kiwifyEmail = urlParams.get('email');
-
-            if (kiwifyStatus === 'approved' || kiwifyStatus === 'paid') {
-                showToast(`🎉 Parabéns! Assinatura Kiwify APROVADA para ${kiwifyEmail || 'sua conta'}!`, 'success');
-                document.getElementById('authScreen')?.classList.add('hidden');
-            } else {
-                // Tenta fechar o login em modo local caso ja haja sessao
-                document.getElementById('authScreen')?.classList.add('hidden');
+        // INITIALIZATION ON WINDOW LOAD
+        window.onload = function () {
+            try {
+                if (typeof supabase !== 'undefined') {
+                    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+                }
+            } catch (err) {
+                console.warn('Supabase JS SDK indisponível. Rodando em modo LocalStorage.', err);
             }
 
+            // Inicia itens padrão no formulário
+            addItemRow('Material / Insumos', '0');
+
+            // Prende escuta nos campos para recalculo automatico
+            document.querySelectorAll('.calc-trigger').forEach(input => {
+                input.addEventListener('input', calculateTotals);
+            });
+
+            // Carrega marcas, checklist e orçamentos
+            carregarConfigEmpresa();
+            renderChecklist();
             carregarOrcamentosDoSupabase();
+            calculateTotals();
         };
     </script>
 </body>
